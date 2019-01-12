@@ -6,10 +6,10 @@
 int getUserChoice() {
   int num;
   puts("Player 1: How many sticks do you take (1-3)?");
-  scanf("%d", num);
+  scanf("%d", &num);
   while(num > 3 || num < 1) {
     puts("Invalid input, please input a number (1-3)");
-    scanf("%d", num);
+    scanf("%d", &num);
   }
   return num;
   /* TODO: Prompt the user "Player 1: How many sticks do you take (1-3)?" and return
