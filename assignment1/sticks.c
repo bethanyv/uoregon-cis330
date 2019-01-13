@@ -55,7 +55,7 @@ int main(int argc, char** argv)
     human_last_choice = 1;
 
     // if human picked up last of sticks, break while loop
-    if(number_sticks == 0) {
+    if(number_sticks <= 0) {
       break;
     }
 
