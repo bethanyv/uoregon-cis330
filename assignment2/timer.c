@@ -60,23 +60,22 @@ void initTimer(ClockType *clock, int minutes, int seconds) {
       }
     }
 
-    // printf("%d", numbers[0]);
-    // printf("%d", numbers[1]);
-    // printf("%s", ":");
-    // printf("%d", numbers[2]);
-    // printf("%d", numbers[3]);
-    // printf("\n");
-    for(int i = 0; i < 8; i++) {
-      printf("%s", to_print[0][i]);
-      printf("%s", to_print[1][i]);
-      printf("%s", to_print[2][i]);
-      printf("%s", to_print[3][i]);
-      printf("%s", to_print[4][i]);
-      printf("\n");
-    }
-
-    runTimer();
+    printf("%d", numbers[0]);
+    printf("%d", numbers[1]);
+    printf("%s", ":");
+    printf("%d", numbers[2]);
+    printf("%d", numbers[3]);
+    printf("\n");
+    // for(int i = 0; i < 8; i++) {
+    //   printf("%s", to_print[0][i]);
+    //   printf("%s", to_print[1][i]);
+    //   printf("%s", to_print[2][i]);
+    //   printf("%s", to_print[3][i]);
+    //   printf("%s", to_print[4][i]);
+    //   printf("\n");
+    // }
     total_time = total_time - 1;
+    runTimer();
   }
 }
 
