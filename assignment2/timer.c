@@ -99,6 +99,6 @@ int main(int argc, char** argv)
   
   initTimer(&myclock, min, sec);
 
-  //cleanTimer(&myclock);
+  cleanTimer(&myclock);
   return 0;
 }
