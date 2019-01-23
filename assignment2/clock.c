@@ -62,93 +62,92 @@ void initClock(ClockType *clock) {
   for (int i = 0; i < 8; i++) {
     clock->four[i] = (char *) malloc(6 * sizeof(char));
   }
-  clock->four[0] = "|   |";
-  clock->four[1] = "|   |";
-  clock->four[2] = "\\   |";
-  clock->four[3] = " ---|";
-  clock->four[4] = "    |";
-  clock->four[5] = "    |";
-  clock->four[6] = "    |";
-  clock->four[7] = "    |";
+  strcpy(clock->four[0], "|   |");
+  strcpy(clock->four[1], "|   |");
+  strcpy(clock->four[2], "\\   |");
+  strcpy(clock->four[3], " ---|");
+  strcpy(clock->four[4], "    |");
+  strcpy(clock->four[5], "    |");
+  strcpy(clock->four[6], "    |");
+  strcpy(clock->four[7], "    |");
 
   clock->five = (char **) malloc ( 8 * sizeof(char*));
   for (int i = 0; i < 8; i++) {
     clock->five[i] = (char *) malloc(6 * sizeof(char));
   }
-  clock->five[0] = "-----";
-  clock->five[1] = "|    ";
-  clock->five[2] = "|    ";
-  clock->five[3] = "\\___ ";
-  clock->five[4] = "    |";
-  clock->five[5] = "    |";
-  clock->five[6] = "    |";
-  clock->five[7] = "\\___/";
+  strcpy(clock->five[0], "-----");
+  strcpy(clock->five[1], "|    ");
+  strcpy(clock->five[2], "|    ");
+  strcpy(clock->five[3], "\\___ ");
+  strcpy(clock->five[4], "    |");
+  strcpy(clock->five[5], "    |");
+  strcpy(clock->five[6], "    |");
+  strcpy(clock->five[7], "\\___/");
   
   clock->six = (char **) malloc ( 8 * sizeof(char*));
   for (int i = 0; i < 8; i++) {
     clock->six[i] = (char *) malloc(6 * sizeof(char));
   }
-  clock->six[0] = "/---\\";
-  clock->six[1] = "|    ";
-  clock->six[2] = "|    ";
-  clock->six[3] = "|---\\";
-  clock->six[4] = "|   |";
-  clock->six[5] = "|   |";
-  clock->six[6] = "|   |";
-  clock->six[7] = "\\___/";
+  strcpy(clock->six[0], "/---\\");
+  strcpy(clock->six[1], "|    ");
+  strcpy(clock->six[2], "|    ");
+  strcpy(clock->six[3], "|---\\");
+  strcpy(clock->six[4], "|   |");
+  strcpy(clock->six[5], "|   |");
+  strcpy(clock->six[6], "|   |");
+  strcpy(clock->six[7], "\\___/");
 
   clock->seven = (char **) malloc ( 8 * sizeof(char*));
   for (int i = 0; i < 8; i++) {
     clock->seven[i] = (char *) malloc(6 * sizeof(char));
   }
-  clock->seven[0] = "/---\\";
-  clock->seven[1] = "    |";
-  clock->seven[2] = "    |";
-  clock->seven[3] = "    /";
-  clock->seven[4] = " --- ";
-  clock->seven[5] = "  /  ";
-  clock->seven[6] = "  |  ";
-  clock->seven[7] = "  |  ";
+  strcpy(clock->seven[0], "/---\\");
+  strcpy(clock->seven[1], "    |");
+  strcpy(clock->seven[2], "    |");
+  strcpy(clock->seven[3], "    /");
+  strcpy(clock->seven[4], " --- ");
+  strcpy(clock->seven[5], "  /  ");
+  strcpy(clock->seven[6], "  |  ");
+  strcpy(clock->seven[7], "  |  ");
 
   clock->eight = (char **) malloc ( 8 * sizeof(char*));
   for (int i = 0; i < 8; i++) {
     clock->eight[i] = (char *) malloc(6 * sizeof(char));
   }
-  clock->eight[0] = "/---\\";
-  clock->eight[1] = "|   |";
-  clock->eight[2] = "|   |";
-  clock->eight[3] = "|___|";
-  clock->eight[4] = "|   |";
-  clock->eight[5] = "|   |";
-  clock->eight[6] = "|   |";
-  clock->eight[7] = "\\___/";
+  strcpy(clock->eight[0], "/---\\");
+  strcpy(clock->eight[1], "|   |");
+  strcpy(clock->eight[2], "|   |");
+  strcpy(clock->eight[3], "|___|");
+  strcpy(clock->eight[4], "|   |");
+  strcpy(clock->eight[5], "|   |");
+  strcpy(clock->eight[6], "|   |");
+  strcpy(clock->eight[7], "\\___/");
 
   clock->nine = (char **) malloc ( 8 * sizeof(char*));
   for (int i = 0; i < 8; i++) {
     clock->nine[i] = (char *) malloc(6 * sizeof(char));
   }
-  clock->nine[0] = "/---\\";
-  clock->nine[1] = "|   |";
-  clock->nine[2] = "|   |";
-  clock->nine[3] = "\\___|";
-  clock->nine[4] = "    |";
-  clock->nine[5] = "    |";
-  clock->nine[6] = "    |";
-  clock->nine[7] = "\\___/";
+  strcpy(clock->nine[0], "/---\\");
+  strcpy(clock->nine[1], "|   |");
+  strcpy(clock->nine[2], "|   |");
+  strcpy(clock->nine[3], "\\___|");
+  strcpy(clock->nine[4], "    |");
+  strcpy(clock->nine[5], "    |");
+  strcpy(clock->nine[6], "    |");
+  strcpy(clock->nine[7], "\\___/");
 
   clock->colon = (char **) malloc ( 8 * sizeof(char*));
   for (int i = 0; i < 8; i++) {
     clock->colon[i] = (char *) malloc(6 * sizeof(char));
   }
-  clock->colon[0] = "     ";
-  clock->colon[1] = "     ";
-  clock->colon[2] = "  #  ";
-  clock->colon[3] = "     ";
-  clock->colon[4] = "     ";
-  clock->colon[5] = "  #  ";
-  clock->colon[6] = "     ";
-  clock->colon[7] = "     ";
-
+  strcpy(clock->colon[0], "     ");
+  strcpy(clock->colon[1], "     ");
+  strcpy(clock->colon[2], "  #  ");
+  strcpy(clock->colon[3], "     ");
+  strcpy(clock->colon[4], "     ");
+  strcpy(clock->colon[5], "  #  ");
+  strcpy(clock->colon[6], "     ");
+  strcpy(clock->colon[7], "     ");
 }
 
 void printClock(const time_t cur_time, const ClockType *clock) {
@@ -229,16 +228,4 @@ void cleanClock(ClockType *clock) {
   free(clock->eight);
   free(clock->nine);
   free(clock->colon);
-}
-
-int main(int argc, char** argv) 
-{
-  ClockType myclock;
-  initClock(&myclock);
-  
-  time_t now = time(NULL);
-  printClock(now, &myclock);
-
-  cleanClock(&myclock);
-  return 0;
 }
