@@ -14,7 +14,7 @@ void initTimer(ClockType *clock, int minutes, int seconds) {
     seconds = total_time % 60;
     minutes = (int) total_time / 60;
 
-    char** to_print[5];
+    char** to_print[6];
 
     int digit_one, digit_two, digit_three, digit_four;
     digit_two = minutes % 10;
@@ -22,13 +22,10 @@ void initTimer(ClockType *clock, int minutes, int seconds) {
     digit_four = seconds % 10;
     digit_three = (int) (seconds - digit_two) / 10;
 
-    int numbers[4] = {digit_one, digit_two, digit_three, digit_four};
+    int numbers[] = {digit_one, digit_two, digit_three, digit_four};
 
     for(int i = 0; i < 5; i++) {
-      if(i == 2) {
-        to_print[2] = clock->colon;
-      }
-      else if(numbers[i] == 0) {
+      if(numbers[i] == 0) {
         to_print[i] = clock->zero;
       }
       else if(numbers[i] == 1) {
@@ -59,19 +56,12 @@ void initTimer(ClockType *clock, int minutes, int seconds) {
         to_print[i] = clock->nine;
       }
     }
-
-    // printf("%d", numbers[0]);
-    // printf("%d", numbers[1]);
-    // printf("%s", ":");
-    // printf("%d", numbers[2]);
-    // printf("%d", numbers[3]);
-    // printf("\n");
     for(int i = 0; i < 8; i++) {
       printf("%s", to_print[0][i]);
       printf("%s", to_print[1][i]);
+      printf("%s", clock->colon[i]);
       printf("%s", to_print[2][i]);
       printf("%s", to_print[3][i]);
-      printf("%s", to_print[4][i]);
       printf("\n");
     }
     total_time = total_time - 1;
