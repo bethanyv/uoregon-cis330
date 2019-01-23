@@ -164,12 +164,26 @@ void printClock(const time_t cur_time, const ClockType *clock) {
 }
 
 void cleanClock(ClockType *clock) {
-
+  for(int i = 0; i < 8; i++) {
+    free(clock->zero[i]);
+    free(clock->one[i]);
+    free(clock->two[i]);
+    free(clock->three[i]);
+    free(clock->four[i]);
+    free(clock->five[i]);
+    free(clock->six[i]);
+    free(clock->seven[i]);
+    free(clock->eight[i]);
+    free(clock->nine[i]);
+  }
+  free(clock);
 }
 
 int main(int argc, char** argv) 
 {
   struct ClockType myclock;
-  initClock(myclock);
+  initClock(&myclock);
+  
+  cleanClock(&myclock);
   return 0;
 }
