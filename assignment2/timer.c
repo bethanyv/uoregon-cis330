@@ -11,7 +11,6 @@ void initTimer(ClockType *clock, int minutes, int seconds) {
   int total_time = (minutes * 60) + seconds;
 
   while(total_time >= 0) {
-    //total_time = (minutes * 60) + seconds;
     seconds = total_time % 60;
     minutes = (int) total_time / 60;
 
@@ -61,22 +60,20 @@ void initTimer(ClockType *clock, int minutes, int seconds) {
       }
     }
 
+    // printf("%d", numbers[0]);
+    // printf("%d", numbers[1]);
+    // printf("%s", ":");
+    // printf("%d", numbers[2]);
+    // printf("%d", numbers[3]);
+    // printf("\n");
     for(int i = 0; i < 8; i++) {
-      printf("%d", numbers[0]);
-      printf("%d", numbers[1]);
-      //printf("%s", clock->colon[i][i]);
-      printf("%d", numbers[2]);
-      printf("%d", numbers[3]);
+      printf("%s", to_print[0][i]);
+      printf("%s", to_print[1][i]);
+      printf("%s", to_print[2][i]);
+      printf("%s", to_print[3][i]);
+      printf("%s", to_print[4][i]);
       printf("\n");
     }
-    // for(int i = 0; i < 8; i++) {
-    //   printf("%s", to_print[0][i]);
-    //   printf("%s", to_print[1][i]);
-    //   printf("%s", to_print[2][i]);
-    //   printf("%s", to_print[3][i]);
-    //   printf("%s", to_print[4][i]);
-    //   printf("\n");
-    // }
 
     runTimer();
     total_time = total_time - 1;
@@ -84,11 +81,11 @@ void initTimer(ClockType *clock, int minutes, int seconds) {
 }
 
 void runTimer() { // sleep
-  sleep(1000);
+  sleep(1);
 }
 
 void cleanTimer(ClockType  *clock) {
-	cleanClock(clock);
+  cleanClock(clock);
 }
 
 int main(int argc, char** argv) 
@@ -101,8 +98,6 @@ int main(int argc, char** argv)
   scanf("%d:%d", &min, &sec);
   
   initTimer(&myclock, min, sec);
-  
-  //runTimer();
 
   cleanTimer(&myclock);
   return 0;
