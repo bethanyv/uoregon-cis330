@@ -11,14 +11,14 @@ void initClock(ClockType *clock) {
     clock->zero[i] = (char *) malloc(6 * sizeof(char))
   }
   clock->zero = {
-      " --- ",
+      "/---\\",
       "|   |",
       "|   |",
       "|   |",
       "|   |",
       "|   |",
       "|   |",
-      " --- "
+      "\\___/"
   }
 
   clock->one = (char **) malloc ( 8 * sizeof(char*));
@@ -85,21 +85,75 @@ void initClock(ClockType *clock) {
   for (int i = 0; i < 8; i++) {
     clock->five[i] = (char *) malloc(6 * sizeof(char))
   }
+  clock->five = {
+      "-----",
+      "|    ",
+      "|    ",
+      "\\___ ",
+      "    |",
+      "    |",
+      "    |",
+      "\\___/"
+  }
+
   clock->six = (char **) malloc ( 8 * sizeof(char*));
   for (int i = 0; i < 8; i++) {
     clock->six[i] = (char *) malloc(6 * sizeof(char))
   }
+  clock->six = {
+      "/---\\",
+      "|    ",
+      "|    ",
+      "|---\\",
+      "|   |",
+      "|   |",
+      "|   |",
+      "\\___/"
+  }
+
   clock->seven = (char **) malloc ( 8 * sizeof(char*));
   for (int i = 0; i < 8; i++) {
     clock->seven[i] = (char *) malloc(6 * sizeof(char))
   }
+  clock->seven = {
+      "/---\\",
+      "    |",
+      "    |",
+      "    /",
+      " --- ",
+      "  /  ",
+      " /   ",
+      "/    "
+  }
+
   clock->eight = (char **) malloc ( 8 * sizeof(char*));
   for (int i = 0; i < 8; i++) {
     clock->eight[i] = (char *) malloc(6 * sizeof(char))
   }
+  clock->eight = {
+      "/---\\",
+      "|   |",
+      "|   |",
+      "|___|",
+      "|   |",
+      "|   |",
+      "|   |",
+      "\\___/"
+  }
+
   clock->nine = (char **) malloc ( 8 * sizeof(char*));
   for (int i = 0; i < 8; i++) {
     clock->nine[i] = (char *) malloc(6 * sizeof(char))
+  }
+  clock->nine = {
+      "/---\\",
+      "|   |",
+      "|   |",
+      "\\___|",
+      "    |",
+      "    |",
+      "    |",
+      "\\___/"
   }
 
 
