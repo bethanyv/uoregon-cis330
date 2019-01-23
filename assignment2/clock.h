@@ -13,6 +13,7 @@ typedef struct {
 	char** seven;
 	char** eight;
 	char** nine;
+	char** colon;
 } ClockType;
 
 // Initialize the clock data structure 
@@ -22,6 +23,6 @@ void initClock(ClockType *clock); // MATRIX OF NUMBERS
 void printClock(const time_t cur_time, const ClockType *clock);
 
 // Free up any dynamically allocated memory in the clock
-cleanClock(ClockType *clock);
+void cleanClock(ClockType *clock);
 
 #endif /* CLOCK_H_ */
