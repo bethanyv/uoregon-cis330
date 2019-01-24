@@ -2,7 +2,7 @@
 #define CLOCK_H_
 
 typedef struct {
-	// TODO: Define your ASCII clock data structure here. 
+	// 2D character arrays for each number for ascii art
 	char** zero;
 	char** one;
 	char** two;
@@ -17,7 +17,7 @@ typedef struct {
 } ClockType;
 
 // Initialize the clock data structure 
-void initClock(ClockType *clock); // MATRIX OF NUMBERS
+void initClock(ClockType *clock); // Matrix of numbers here
 
 // Print an ASCII clock showing cur_time as the time 
 void printClock(const time_t cur_time, const ClockType *clock);

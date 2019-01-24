@@ -4,14 +4,17 @@
 #include <string.h>
 #include "clock.h"
 
-int main(int argc, char** argv) 
-{
-  ClockType myclock;
-  initClock(&myclock);
-  
-  time_t now = time(NULL);
-  printClock(now, &myclock);
+int main(int argc, char** argv) {
+	// initialize a clock
+	ClockType myclock;
+	initClock(&myclock);
 
-  cleanClock(&myclock);
-  return 0;
+	// grab the current time
+	time_t now = time(NULL);
+	// print the clock with the current time
+	printClock(now, &myclock);
+
+	// free the memory
+	cleanClock(&myclock);
+	return 0;
 }

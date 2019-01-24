@@ -8,22 +8,30 @@
 #include <unistd.h>
 
 void initTimer(ClockType *clock, int minutes, int seconds) {
+  // the total time calculation
   int total_time = (minutes * 60) + seconds;
 
+  // while there is still time left, keep going and finding the next digits
   while(total_time >= 0) {
-    seconds = total_time % 60;
+    // calculate the seconds and minutes
+    seconds = total_time % 60; 
     minutes = (int) total_time / 60;
 
+    // create a 2D array for holding the digits we want to print
     char** to_print[6];
 
-    int digit_one, digit_two, digit_three, digit_four;
+    // grab individual digits with modulo and division
+    int digit_one, digit_two, digit_three, digit_four;  
     digit_two = minutes % 10;
     digit_one = (int) (minutes - digit_two) / 10;
     digit_four = seconds % 10;
     digit_three = (int) (seconds - digit_two) / 10;
 
+    // new array to iterate through to find what ascii digit we want
     int numbers[] = {digit_one, digit_two, digit_three, digit_four};
 
+    // for each of the four digits, find what ascii digit we want and assign
+    // it to the 2D array we initialized up above (to_print)
     for(int i = 0; i < 5; i++) {
       if(numbers[i] == 0) {
         to_print[i] = clock->zero;
@@ -56,6 +64,8 @@ void initTimer(ClockType *clock, int minutes, int seconds) {
         to_print[i] = clock->nine;
       }
     }
+    // for the 8 lines (height) of the ascii characters, print
+    // the piece of each digit/colon so it prints horizontally
     for(int i = 0; i < 8; i++) {
       printf("%s", to_print[0][i]);
       printf("%s", to_print[1][i]);
@@ -64,31 +74,19 @@ void initTimer(ClockType *clock, int minutes, int seconds) {
       printf("%s", to_print[3][i]);
       printf("\n");
     }
+    // subtract from total time for it to continue
     total_time = total_time - 1;
+    // call run timer to sleep
     runTimer();
   }
 }
 
-void runTimer() { // sleep
+void runTimer() { 
+  // sleep for one second
   sleep(1);
 }
 
 void cleanTimer(ClockType  *clock) {
+  // free the data initalized when creating a clock
   cleanClock(clock);
-}
-
-int main(int argc, char** argv) 
-{
-  ClockType myclock;
-  initClock(&myclock);
-  int min;
-  int sec;
-
-  printf("How long should the timer run (MM:SS)? ");
-  scanf("%d:%d", &min, &sec);
-  
-  initTimer(&myclock, min, sec);
-
-  cleanTimer(&myclock);
-  return 0;
 }

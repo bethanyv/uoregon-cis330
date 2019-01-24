@@ -4,18 +4,21 @@
 #include <string.h>
 #include "timer.h"
 
-int main(int argc, char** argv) 
-{
-  ClockType myclock;
-  initClock(&myclock);
-  int min;
-  int sec;
+int main(int argc, char** argv) {
+	// initalize a clock and call init
+	ClockType myclock;
+	initClock(&myclock);
+	int min;
+	int sec;
 
-  printf("How long should the timer run (MM:SS)? ");
-  scanf("%d:%d", &min, &sec);
-  
-  initTimer(&myclock, min, sec);
+	// get user input
+	printf("How long should the timer run (MM:SS)? ");
+	scanf("%d:%d", &min, &sec);
 
-  cleanTimer(&myclock);
-  return 0;
+	// call init with the minutes and seconds and initalized clock
+	initTimer(&myclock, min, sec);
+
+	// free the timer
+	cleanTimer(&myclock);
+	return 0;
 }

@@ -5,11 +5,14 @@
 #include "clock.h"
 
 void initClock(ClockType *clock) {
-  /*8 for height. 6 for length of each line(including null byte of string)*/
+  /* 8 for height. 6 for length of each line (including null byte of string)*/
+  //allocated for each 2d array
   clock->zero = (char **) malloc ( 8 * sizeof(char*));
   for (int i = 0; i < 8; i++) {
     clock->zero[i] = (char *) malloc(6 * sizeof(char));
   }
+  // use strcpy because I malloced, don't want to overwrite, but want to write into 
+  // the memory I allocated
   strcpy(clock->zero[0], "/---\\");
   strcpy(clock->zero[1], "|   |");
   strcpy(clock->zero[2], "|   |");
@@ -151,9 +154,14 @@ void initClock(ClockType *clock) {
 }
 
 void printClock(const time_t cur_time, const ClockType *clock) {
+  // grab the time in a string
   char* str_time = ctime(&cur_time);
+  // initialize character array for the digits needed (including colon)
   char** numbers[8];
 
+  // go through all the numbers for time we want
+  // depending on the digit/colon it holds
+  // assign that to the clock ascii digit
   for(int k = 0; k < 8; k++) {
     if(str_time[k+11] == '0') {
       numbers[k] = clock->zero;
@@ -190,6 +198,8 @@ void printClock(const time_t cur_time, const ClockType *clock) {
     }
   }
 
+  // print the upper part of all the numbers (ascii) and then next iteration,
+  // print a level down (so it's a horizontal clock)
   for(int i = 0; i < 8; i++) {
     printf("%s", numbers[0][i]);
     printf("%s", numbers[1][i]);
@@ -203,6 +213,7 @@ void printClock(const time_t cur_time, const ClockType *clock) {
   }
 }
 
+// clean the inner arrays of the clock's digits
 void cleanClock(ClockType *clock) {
   for(int i = 0; i < 8; i++) {
     free(clock->zero[i]);
@@ -217,6 +228,7 @@ void cleanClock(ClockType *clock) {
     free(clock->nine[i]);
     free(clock->colon[i]);
   }
+  // free the array that held all the digit lines of the clock
   free(clock->zero);
   free(clock->one);
   free(clock->two);
