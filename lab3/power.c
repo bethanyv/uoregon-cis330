@@ -1,6 +1,6 @@
 #include <math.h>
+#include "power.h"
 
 double power(double a, double b) {
-	double x = pow(a, b);
-	return x;
+	return pow(a,b);
 }
