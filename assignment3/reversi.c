@@ -34,7 +34,13 @@ int placePiece(const BoardType *board, const piece color, const int x, const int
 
 // set the beginning pieces in the center
 void setPieces(BoardType *board) {
-
+	// to set pieces in middle, find size/2 and place at 
+	// (size / 2) and (size / 2) - 1 in both x and y coordinates
+	int size = board->size;
+	board->pieces[size/ 2][size / 2] = white;
+	board->pieces[(size / 2) - 1][size / 2] = black;
+	board->pieces[(size / 2) - 1][(size / 2) - 1] = white;
+	board->pieces[size / 2][(size / 2) - 1] = black;
 }
 
 // Print the board in a easy to read way
@@ -97,7 +103,7 @@ void cleanBoard(BoardType *board) {
 		free(board->pieces[i]);
 	}
 	// free the array that held all the digit lines of the clock
-	free(board);
+	free(board->pieces);
 }
 
 int main(int argc, char const *argv[]) {
@@ -110,6 +116,7 @@ int main(int argc, char const *argv[]) {
 	int size = 8;
 	BoardType board;
 	initBoard(&board, size);
+	setPieces(&board);
 
 	// practice printing
 	for(int i = 0; i < size; i++) {
