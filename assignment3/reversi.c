@@ -45,6 +45,11 @@ void setPieces(BoardType *board) {
 
 // Print the board in a easy to read way
 void printBoard(const BoardType *board) {
+	// printf("Player 1 > 2     Player 2 > 2");
+	// TODO: uncomment this when countBlack is done
+	printf("\nPlayer 1 > %d     Player 2 > %d", countBlack(board), countWhite(board));
+	printf("\n\n");
+
 	// print initial space for empty corner before indexes
 	printf("  ");
 	// print the j indexes across the top
@@ -77,19 +82,19 @@ void printBoard(const BoardType *board) {
 
 // check if there is a valid vertical move - if it is, return the 
 // index of other piece closing off opponent's pieces. If not, return -1
-int verticalValid(const int start_index) {
+int verticalValid(const int start_index_i, const int start_index_j) {
 	return 0;
 }
 
 // check if there is a valid horizontal move - if it is, return the 
 // index of other piece closing off opponent's pieces. If not, return -1
-int horizontalValid(const int start_index) {
+int horizontalValid(const int start_index_i, const int start_index_j) {
 	return 0;
 }
 
 // check if there is a valid diagonal move - if it is, return the 
 // index of other piece closing off opponent's pieces. If not, return -1
-int diagonalValid(const int start_index) {
+int diagonalValid(const int start_index_i, const int start_index_j) {
 	return 0;
 }
 
@@ -100,28 +105,44 @@ int anyValidMoves(const BoardType *board, const piece color) {
 }
 
 // flip the pieces in between the indexes
-void horizontalFlip(const int start_index, const int end_index) {
+void horizontalFlip(const int start_index_i, const int start_index_j, const int end_index_i, const int end_index_j) {
 
 }
 
 // flip the pieces in between the indexes
-void verticalFlip(const int start_index, const int end_index) {
+void verticalFlip(const int start_index_i, const int start_index_j, const int end_index_i, const int end_index_j) {
 
 }
 
 // flip the pieces in between the indexes
-void diagonalFlip(const int start_index, const int end_index) {
+void diagonalFlip(const int start_index_i, const int start_index_j, const int end_index_i, const int end_index_j) {
 
 }
 
 // counts number of black pieces
 int countBlack(const BoardType *board) {
-	return 0;
+	int count = 0;
+	for(int i = 0; i < board->size; i++) {
+		for(int j = 0; j < board->size; j++) {
+			if(board->pieces[i][j] == black) {
+				count += 1;
+			}
+		}
+	}
+	return count;
 }
 
 // counts number of white pieces
 int countWhite(const BoardType *board) {
-	return 0;
+	int count = 0;
+	for(int i = 0; i < board->size; i++) {
+		for(int j = 0; j < board->size; j++) {
+			if(board->pieces[i][j] == white) {
+				count += 1;
+			}
+		}
+	}
+	return count;
 }
 
 // Free up any dynamically allocated memory
@@ -155,14 +176,6 @@ int main(int argc, char const *argv[]) {
 	initBoard(&board, size);
 	setPieces(&board);
 	printBoard(&board);
-	// practice printing
-	// for(int i = 0; i < size; i++) {
-	// 	for(int j = 0; j < size; j++) {
-	// 		piece x = (&board)->pieces[i][j];
-	// 		printf("%d ", x);
-	// 	}
-	// 	printf("\n");
-	// }
 
 	cleanBoard(&board);
 	return 0;

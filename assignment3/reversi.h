@@ -31,28 +31,28 @@ int placePiece(const BoardType *board, const piece color, const int x, const int
 
 // check if there is a valid vertical move - if it is, return the 
 // index of other piece closing off opponent's pieces. If not, return -1
-int verticalValid(const int start_index);
+int verticalValid(const int start_index_i, const int start_index_j);
 
 // check if there is a valid horizontal move - if it is, return the 
 // index of other piece closing off opponent's pieces. If not, return -1
-int horizontalValid(const int start_index);
+int horizontalValid(const int start_index_i, const int start_index_j);
 
 // check if there is a valid diagonal move - if it is, return the 
 // index of other piece closing off opponent's pieces. If not, return -1
-int diagonalValid(const int start_index);
+int diagonalValid(const int start_index_i, const int start_index_j);
 
 // check if there are ANY valid moves available for a player (piece will be a color)
 // call all valid functions and if all of them return -1, no moves left
 int anyValidMoves(const BoardType *board, const piece color);
 
 // flip the pieces in between the indexes
-void horizontalFlip(const int start_index, const int end_index);
+void horizontalFlip(const int start_index_i, const int start_index_j, const int end_index_i, const int end_index_j);
 
 // flip the pieces in between the indexes
-void verticalFlip(const int start_index, const int end_index);
+void verticalFlip(const int start_index_i, const int start_index_j, const int end_index_i, const int end_index_j);
 
 // flip the pieces in between the indexes
-void diagonalFlip(const int start_index, const int end_index);
+void diagonalFlip(const int start_index_i, const int start_index_j, const int end_index_i, const int end_index_j);
 
 // counts number of black pieces
 int countBlack(const BoardType *board);
