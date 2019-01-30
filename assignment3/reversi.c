@@ -23,7 +23,18 @@ void initBoard(BoardType *board, const int size) {
 
 // ask players for what they want to do, place pieces
 void runGame(BoardType *board) {
-
+	int x, y;
+	printBoard(board);
+	printf("%s", "Please input space you want to go to: ");
+	scanf("%d %d", &x, &y);
+	while(x < 0 || x > board->size - 1 || y < 0 || y > board->size - 1) {
+		printf("%s", "invalid input, please input again (TOO BIG OR SMALL OF AN INDEX)");
+		scanf("%d %d", &x, &y);
+	}
+	if(board->pieces[x][y] != empty) {
+		printf("%s", "invalid input, please input again (FULL SPOT)");
+	}
+	placePiece(board, black, x, y);
 } 
 
 // place the piece where the user specified by checking if it's valid and flipping 
@@ -33,6 +44,7 @@ int placePiece(const BoardType *board, const piece color, const int x, const int
 	int boo = 0; // 0 if nothing has been valid. 1 if something is valid
 	int vertical_valid = verticalValid(board, x, y, color);
 	int horizontal_valid = horizontalValid(board, x, y, color);
+	
 	if(vertical_valid != -1) {
 		// TODO: Here, flip the pieces with board,x,y,vertical_valid,y,color
 		boo = 1;
@@ -44,6 +56,7 @@ int placePiece(const BoardType *board, const piece color, const int x, const int
 
 	if(boo) {
 		board->pieces[x][y] = color;
+		return 1;
 	}
 	if(!boo) {
 		printf("%s\n", "Invalid move! Please try again");
@@ -107,7 +120,7 @@ int verticalValid(const BoardType *board, const int start_index_i, const int sta
 	int decreasing = start_index_i - 1;
 	int to_count = start_index_i;
 
-	if(increasing < board->size) {
+	if(increasing < board->size && increasing > -1) {
 		// increasing first
 		while(board->pieces[increasing][start_index_j] != color) {
 			if(board->pieces[increasing][start_index_j] == empty) {
@@ -125,7 +138,7 @@ int verticalValid(const BoardType *board, const int start_index_i, const int sta
 		}
 	}
 	// decreasing
-	if(decreasing > -1) {
+	if(decreasing > -1 && decreasing < board->size) {
 		while(board->pieces[decreasing][start_index_j] != color) {
 			if(board->pieces[decreasing][start_index_j] == empty) {
 				to_count = start_index_i;
@@ -152,7 +165,7 @@ int horizontalValid(const BoardType *board, const int start_index_i, const int s
 	int decreasing = start_index_j - 1;
 	int to_count = start_index_j;
 
-	if(increasing < board->size) {
+	if(increasing < board->size && increasing > -1) {
 		// increasing first
 		while(board->pieces[start_index_i][increasing] != color) {
 			if(board->pieces[start_index_i][increasing] == empty) {
@@ -170,7 +183,7 @@ int horizontalValid(const BoardType *board, const int start_index_i, const int s
 		}
 	}
 	// decreasing
-	if(decreasing > -1) {
+	if(decreasing > -1 && decreasing < board->size) {
 		while(board->pieces[start_index_i][decreasing] != color) {
 			if(board->pieces[start_index_i][decreasing] == empty) {
 				to_count = start_index_j;
@@ -273,7 +286,8 @@ int main(int argc, char const *argv[]) {
 	BoardType board;
 	initBoard(&board, size);
 	setPieces(&board);
-	placePiece(&board, black, -1, -4);
+	runGame(&board);
+	// placePiece(&board, black, -1,-1);
 	//printf("%d", verticalValid(&board, 1, 2,black));
 	printBoard(&board);
 
