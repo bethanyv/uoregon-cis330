@@ -23,7 +23,7 @@ void runGame(BoardType *board); // ask players for what they want to do, place p
 void setPieces(BoardType *board);
 
 // Print the board in a easy to read way
-void printBoard(const BoardType *board, const int size);
+void printBoard(const BoardType *board);
 
 // place the piece where the user specified by checking if it's valid and flipping
 // if a piece is placed, return 1. Else return 0 

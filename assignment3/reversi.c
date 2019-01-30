@@ -44,8 +44,35 @@ void setPieces(BoardType *board) {
 }
 
 // Print the board in a easy to read way
-void printBoard(const BoardType *board, const int size) {
-
+void printBoard(const BoardType *board) {
+	// print initial space for empty corner before indexes
+	printf("  ");
+	// print the j indexes across the top
+	for(int k = 0; k < board->size; k++) {
+		printf("%d ", k);
+	}
+	// new line before printing every line of board with i index
+	printf("\n");
+	for(int i = 0; i < board->size; i++) {
+		// start with printing i so players know where the index is
+		printf("%d ", i);
+		// iterate through each piece in the i row to print them
+		for(int j = 0; j < board->size; j++) {
+			piece x = board->pieces[i][j];
+			// if they are black, print X; if white, print O; if empty, print .
+			if(x == black) {
+				printf("%s ", "X");
+			}
+			else if(x == white) {
+				printf("%s ", "O");
+			}
+			else {
+				printf(". ");
+			}
+		}
+		// new line before next row
+		printf("\n");
+	}
 }
 
 // check if there is a valid vertical move - if it is, return the 
@@ -113,19 +140,29 @@ int main(int argc, char const *argv[]) {
 	initalize the first few pieces (setpieces)
 	runGame (calls print board every turn)
 	*/
-	int size = 8;
+	int size;
+
+	printf("Please enter the size of the board: ");
+	scanf("%d", &size);
+
+	while(size < 4 || size > 16) {
+		printf("Invalid board size, please input again (4-16)\n");
+		printf("Please enter the size of the board: ");
+		scanf("%d", &size);
+	}
+
 	BoardType board;
 	initBoard(&board, size);
 	setPieces(&board);
-
+	printBoard(&board);
 	// practice printing
-	for(int i = 0; i < size; i++) {
-		for(int j = 0; j < size; j++) {
-			piece x = (&board)->pieces[i][j];
-			printf("%d ", x);
-		}
-		printf("\n");
-	}
+	// for(int i = 0; i < size; i++) {
+	// 	for(int j = 0; j < size; j++) {
+	// 		piece x = (&board)->pieces[i][j];
+	// 		printf("%d ", x);
+	// 	}
+	// 	printf("\n");
+	// }
 
 	cleanBoard(&board);
 	return 0;
