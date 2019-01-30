@@ -309,7 +309,7 @@ indexType diagonalValid(const BoardType *board, const int x, const int y, const 
 		// player's color, continue going to see if move is legal
 		while(board->pieces[up][left] != color) {
 			// if it's empty, break loop with to_count as the original index
-			if(board->pieces[up][left] == empty) {
+			if(board->pieces[up][left] == empty || up == -1 || left == -1) {
 				to_return.i = start_index_i;
 				to_return.j = start_index_j;
 				boo = 1;
@@ -384,6 +384,9 @@ indexType diagonalValid(const BoardType *board, const int x, const int y, const 
 			right++;
 			// if the counter goes off the board or hits the color we are looking for, break
 			// when we break we will have the index we were looking for of the "end" piece
+			if(up == -1 || left == -1) {
+				boo = 1;
+			}
 			if(up == -1 || board->pieces[up][right] == color || right == board->size) {
 				break;
 			}
@@ -404,7 +407,7 @@ indexType diagonalValid(const BoardType *board, const int x, const int y, const 
 		// player's color, continue going to see if move is legal
 		while(board->pieces[down][right] != color) {
 			// if it's empty, break loop with to_count as the original index
-			if(down == board->size || board->pieces[down][right] == empty) {
+			if(down == board->size || board->pieces[down][right] == empty || right == board->size) {
 				to_return.i = start_index_i;
 				to_return.j = start_index_j;
 				boo = 1;
@@ -415,6 +418,9 @@ indexType diagonalValid(const BoardType *board, const int x, const int y, const 
 			right++;
 			// if the counter goes off the board or hits the color we are looking for, break
 			// when we break we will have the index we were looking for of the "end" piece
+			if(down == board->size || right == board->size) {
+				boo = 1;
+			}
 			if(down == board->size || board->pieces[down][right] == color || right == board->size) {
 				break;
 			}
