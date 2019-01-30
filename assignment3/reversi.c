@@ -44,9 +44,10 @@ int placePiece(const BoardType *board, const piece color, const int x, const int
 	int boo = 0; // 0 if nothing has been valid. 1 if something is valid
 	int vertical_valid = verticalValid(board, x, y, color);
 	int horizontal_valid = horizontalValid(board, x, y, color);
-	
+
 	if(vertical_valid != -1) {
 		// TODO: Here, flip the pieces with board,x,y,vertical_valid,y,color
+		verticalFlip(board, x, vertical_valid, y, color);
 		boo = 1;
 	}
 	if(horizontal_valid != -1) {
@@ -112,88 +113,121 @@ void printBoard(const BoardType *board) {
 	}
 }
 
-// check if there is a valid vertical move - if it is, return the 
-// i index (because for vertical, j is the same) 
-// of other piece closing off opponent's pieces. If not, return -1
 int verticalValid(const BoardType *board, const int start_index_i, const int start_index_j, const piece color) {
+	// check if there is a valid vertical move - if it is, return the 
+	// i index of ending piece that closes space we want to flip
+	// (because for vertical, j is the same) 
+	// If no legal move, return -1
+
 	int increasing = start_index_i + 1;
 	int decreasing = start_index_i - 1;
 	int to_count = start_index_i;
 
+	// to ensure we don't get a seg fault and index to the wrong location
 	if(increasing < board->size && increasing > -1) {
-		// increasing first
+		// increasing first, while the spot directly below the spot of the
+		// selected space isn't the color of the player making the move
 		while(board->pieces[increasing][start_index_j] != color) {
+			// if the spot is empty though, set the count to the beginning index to try decreasing
+			// break this loop so it doesn't continue
 			if(board->pieces[increasing][start_index_j] == empty) {
 				to_count = start_index_i;
 				break;
 			}
+			// increase index going vertically down to look at next spot
 			increasing++;
+			// if increasing went off the board, or we hit another of out pieces, break
 			if(increasing == board->size || board->pieces[increasing][start_index_j] == color) {
 				break;
 			}
 		}
+		// then check if the start index isn't the same as our new increasing value
+		// if it is, then set to_count equal to it and return so we don't go through the opposite way unnessesarily 
 		if(increasing - 1 != start_index_i) {
 			to_count = increasing;
 			return to_count;
 		}
 	}
 	// decreasing
+	// make sure the initial decreasing index (one above the want to be placed piece) isn't out of range
 	if(decreasing > -1 && decreasing < board->size) {
+		// while the next piece isn't our color, continue searching for our end piece
 		while(board->pieces[decreasing][start_index_j] != color) {
+			// if the piece above it is empty, set index back to original starting point and break loop so it doesn't continue
 			if(board->pieces[decreasing][start_index_j] == empty) {
 				to_count = start_index_i;
 				break;
 			}
+			// decrease by one to look at the next piece
 			decreasing--;
+			// check to make sure we won't try to index somewhere we shouldn't, and check if the next piece is the player's
+			// if either of these are true, break because we are done
 			if(decreasing == -1 || board->pieces[decreasing][start_index_j] == color) {
 				break;
 			}
 		}
+		// check to make sure decreasing isn't the same as the starting index after running
 		if(decreasing + 1 != start_index_i) {
+			// set to_count to current index we want and return it
 			to_count = decreasing;
 			return to_count;
 		}
 	}
-	// if the start_index_i didn't change, that means there is no legal move, return -1
+	// if the start_index_i didn't change, that means there is no legal move vertically, return -1
 	return -1;
 }
 
-// check if there is a valid horizontal move - if it is, return the 
-// index of other piece closing off opponent's pieces. If not, return -1
 int horizontalValid(const BoardType *board, const int start_index_i, const int start_index_j, const piece color) {
+	// check if there is a valid horizontal move - if it is, return the 
+	// index of other piece closing off opponent's pieces. If not, return -1
 	int increasing = start_index_j + 1;
 	int decreasing = start_index_j - 1;
 	int to_count = start_index_j;
 
+	// same logic as vertical, just switch the counting part to all moving the 
+	// j index since it's horizontal and i stays the same
 	if(increasing < board->size && increasing > -1) {
-		// increasing first
+		// increasing first, while the piece to the right is not equal to the 
+		// player's color, continue going to see if move is legal
 		while(board->pieces[start_index_i][increasing] != color) {
+			// if it's empty, break loop with to_count as the original index
 			if(board->pieces[start_index_i][increasing] == empty) {
 				to_count = start_index_j;
 				break;
 			}
+			// increase counter to look at next piece to count up indexes
 			increasing++;
+			// if the counter goes off the board or hits the color we are looking for, break
+			// when we break we will have the index we were looking for of the "end" piece
 			if(increasing == board->size || board->pieces[start_index_i][increasing] == color) {
 				break;
 			}
 		}
+		// check to make sure the new index stored in increasing variable isn't the starting index
 		if(increasing - 1 != start_index_j) {
+			// if it is, return it
 			to_count = increasing;
 			return to_count;
 		}
 	}
-	// decreasing
+	// decreasing, make sure the index of the piece to left are in the range
 	if(decreasing > -1 && decreasing < board->size) {
+		// while the next piece isn't the color we are looking for, keep looking
 		while(board->pieces[start_index_i][decreasing] != color) {
+			// if it's empty though, set to_count back to starting index
 			if(board->pieces[start_index_i][decreasing] == empty) {
 				to_count = start_index_j;
 				break;
 			}
+			// decrease to look at next piece
 			decreasing--;
+			// ensure that next piece isn't off the board and isn't the color we are looking for
+			// if it is, break so we have the current index
 			if(decreasing == -1 || board->pieces[start_index_i][decreasing] == color) {
 				break;
 			}
 		}
+		// check to make sure new index isn't the beginning index and return it
 		if(decreasing + 1 != start_index_j) {
 			to_count = decreasing;
 			return to_count;
@@ -221,8 +255,20 @@ void horizontalFlip(const BoardType *board, const int start_index_i, const int s
 }
 
 // flip the pieces in between the indexes
-void verticalFlip(const BoardType *board, const int start_index_i, const int start_index_j, const int end_index_i, const int end_index_j, const piece color) {
+void verticalFlip(const BoardType *board, const int start_index_i, const int end_index_i, const int index_j, const piece color) {
+	int lower, higher;
+	if(start_index_i < end_index_i) {
+		lower = start_index_i;
+		higher = end_index_i;
+	}
+	else {
+		lower = end_index_i;
+		higher = start_index_i;
+	}
 
+	for(int i = lower; i < higher; i++) {
+		board->pieces[i][j] = color;
+	}
 }
 
 // flip the pieces in between the indexes
