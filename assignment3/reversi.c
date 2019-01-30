@@ -1,13 +1,14 @@
 #include "reversi.h"
-#include <std.io>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 // Initialize the board
 void initBoard(BoardType *board, const int size) {
 	// allocate memory for the board depending on the size the player chose
-	board->pieces = (char **) malloc ( size * sizeof(char*));
+	board->pieces = (piece **) malloc ( size * sizeof(piece*));
 	for (int i = 0; i < size; i++) {
-		board->pieces[i] = (char *) malloc(size * sizeof(char));
+		board->pieces[i] = (piece *) malloc(size * sizeof(piece));
 	}
 	board->turn = black;
 	board->size = size;
@@ -15,7 +16,7 @@ void initBoard(BoardType *board, const int size) {
 	// fill the board with empty for now
 	for (int i = 0; i < size; i ++) {
 		for (int j = 0; j < size; j ++) {
-			strcpy(board->pieces[i][j], '.');
+			board->pieces[i][j] = empty;
 		}
 	}
 }
@@ -27,7 +28,7 @@ void runGame(BoardType *board) {
 
 // place the piece where the user specified by checking if it's valid and flipping 
 // if a piece is placed, return 1. Else return 0
-int placePiece(const BoardType *board, const enum piece, const int x, int const y) {
+int placePiece(const BoardType *board, const piece color, const int x, const int y) {
 	return 0;
 }
 
@@ -61,7 +62,7 @@ int diagonalValid(const int start_index) {
 
 // check if there are ANY valid moves available for a player (piece will be a color)
 // call all valid functions and if all of them return -1, no moves left
-int anyValidMoves(const BoardType *board, const piece) {
+int anyValidMoves(const BoardType *board, const piece color) {
 	return 0;
 }
 
@@ -93,9 +94,7 @@ int countWhite(const BoardType *board) {
 // Free up any dynamically allocated memory
 void cleanBoard(BoardType *board) {
 	for(int i = 0; i < board->size; i++) {
-		for(int j = 0; j < board->size; j++) {
-			free(board->pieces[i][j]);
-		}
+		free(board->pieces[i]);
 	}
 	// free the array that held all the digit lines of the clock
 	free(board);
@@ -108,8 +107,19 @@ int main(int argc, char const *argv[]) {
 	initalize the first few pieces (setpieces)
 	runGame (calls print board every turn)
 	*/
+	int size = 8;
 	BoardType board;
-	initBoard(&board);
+	initBoard(&board, size);
+
+	// practice printing
+	for(int i = 0; i < size; i++) {
+		for(int j = 0; j < size; j++) {
+			piece x = (&board)->pieces[i][j];
+			printf("%d ", x);
+		}
+		printf("\n");
+	}
+
 	cleanBoard(&board);
 	return 0;
 }
