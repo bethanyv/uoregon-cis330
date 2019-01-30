@@ -13,6 +13,11 @@ typedef struct {
 	int size;
 } BoardType;
 
+typedef struct {
+	int i;
+	int j;
+} indexType;
+
 // Initialize the board
 void initBoard(BoardType *board, const int size); // Matrix of pieces here
 
@@ -39,7 +44,7 @@ int horizontalValid(const BoardType *board, const int start_index_i, const int s
 
 // check if there is a valid diagonal move - if it is, return the 
 // indexes of other piece closing off opponent's pieces. If not, return original points from call
-int* diagonalValid(const BoardType *board, int* array, const piece color);
+indexType diagonalValid(const BoardType *board, const int x, const int y, const piece color);
 
 // check if there are ANY valid moves available for a player (piece will be a color)
 // call all valid functions and if all of them return -1, no moves left
@@ -52,7 +57,7 @@ void horizontalFlip(const BoardType *board, const int start_index_j, const int e
 void verticalFlip(const BoardType *board, const int start_index_i, const int end_index_i, const int index_j, const piece color);
 
 // flip the pieces in between the indexes
-void diagonalFlip(const BoardType *board, const int start_index_i, const int start_index_j, const int end_index_i, const int end_index_j, const piece color);
+void diagonalFlip(const BoardType *board, indexType from, indexType to, const piece color);
 
 // counts number of black pieces
 int countBlack(const BoardType *board);
