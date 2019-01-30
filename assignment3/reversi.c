@@ -29,6 +29,25 @@ void runGame(BoardType *board) {
 // place the piece where the user specified by checking if it's valid and flipping 
 // if a piece is placed, return 1. Else return 0
 int placePiece(const BoardType *board, const piece color, const int x, const int y) {
+	// if it is vertical valid
+	int boo = 0; // 0 if nothing has been valid. 1 if something is valid
+	int vertical_valid = verticalValid(board, x, y, color);
+	int horizontal_valid = horizontalValid(board, x, y, color);
+	if(vertical_valid != -1) {
+		// TODO: Here, flip the pieces with board,x,y,vertical_valid,y,color
+		boo = 1;
+	}
+	if(horizontal_valid != -1) {
+		// TODO: Here, flip the pieces with board,x,y,vertical_valid,y,color
+		boo = 1;
+	}
+
+	if(boo) {
+		board->pieces[x][y] = color;
+	}
+	if(!boo) {
+		printf("%s\n", "Invalid move! Please try again");
+	}
 	return 0;
 }
 
@@ -81,20 +100,99 @@ void printBoard(const BoardType *board) {
 }
 
 // check if there is a valid vertical move - if it is, return the 
-// index of other piece closing off opponent's pieces. If not, return -1
-int verticalValid(const int start_index_i, const int start_index_j) {
-	return 0;
+// i index (because for vertical, j is the same) 
+// of other piece closing off opponent's pieces. If not, return -1
+int verticalValid(const BoardType *board, const int start_index_i, const int start_index_j, const piece color) {
+	int increasing = start_index_i + 1;
+	int decreasing = start_index_i - 1;
+	int to_count = start_index_i;
+
+	if(increasing < board->size) {
+		// increasing first
+		while(board->pieces[increasing][start_index_j] != color) {
+			if(board->pieces[increasing][start_index_j] == empty) {
+				to_count = start_index_i;
+				break;
+			}
+			increasing++;
+			if(increasing == board->size || board->pieces[increasing][start_index_j] == color) {
+				break;
+			}
+		}
+		if(increasing - 1 != start_index_i) {
+			to_count = increasing;
+			return to_count;
+		}
+	}
+	// decreasing
+	if(decreasing > -1) {
+		while(board->pieces[decreasing][start_index_j] != color) {
+			if(board->pieces[decreasing][start_index_j] == empty) {
+				to_count = start_index_i;
+				break;
+			}
+			decreasing--;
+			if(decreasing == -1 || board->pieces[decreasing][start_index_j] == color) {
+				break;
+			}
+		}
+		if(decreasing + 1 != start_index_i) {
+			to_count = decreasing;
+			return to_count;
+		}
+	}
+	// if the start_index_i didn't change, that means there is no legal move, return -1
+	return -1;
 }
 
 // check if there is a valid horizontal move - if it is, return the 
 // index of other piece closing off opponent's pieces. If not, return -1
-int horizontalValid(const int start_index_i, const int start_index_j) {
-	return 0;
+int horizontalValid(const BoardType *board, const int start_index_i, const int start_index_j, const piece color) {
+	int increasing = start_index_j + 1;
+	int decreasing = start_index_j - 1;
+	int to_count = start_index_j;
+
+	if(increasing < board->size) {
+		// increasing first
+		while(board->pieces[start_index_i][increasing] != color) {
+			if(board->pieces[start_index_i][increasing] == empty) {
+				to_count = start_index_j;
+				break;
+			}
+			increasing++;
+			if(increasing == board->size || board->pieces[start_index_i][increasing] == color) {
+				break;
+			}
+		}
+		if(increasing - 1 != start_index_j) {
+			to_count = increasing;
+			return to_count;
+		}
+	}
+	// decreasing
+	if(decreasing > -1) {
+		while(board->pieces[start_index_i][decreasing] != color) {
+			if(board->pieces[start_index_i][decreasing] == empty) {
+				to_count = start_index_j;
+				break;
+			}
+			decreasing--;
+			if(decreasing == -1 || board->pieces[start_index_i][decreasing] == color) {
+				break;
+			}
+		}
+		if(decreasing + 1 != start_index_j) {
+			to_count = decreasing;
+			return to_count;
+		}
+	}
+	// if the start_index_i didn't change, that means there is no legal move, return -1
+	return -1;
 }
 
 // check if there is a valid diagonal move - if it is, return the 
 // index of other piece closing off opponent's pieces. If not, return -1
-int diagonalValid(const int start_index_i, const int start_index_j) {
+int diagonalValid(const BoardType *board, const int start_index_i, const int start_index_j, const piece color) {
 	return 0;
 }
 
@@ -105,17 +203,17 @@ int anyValidMoves(const BoardType *board, const piece color) {
 }
 
 // flip the pieces in between the indexes
-void horizontalFlip(const int start_index_i, const int start_index_j, const int end_index_i, const int end_index_j) {
+void horizontalFlip(const BoardType *board, const int start_index_i, const int start_index_j, const int end_index_i, const int end_index_j, const piece color) {
 
 }
 
 // flip the pieces in between the indexes
-void verticalFlip(const int start_index_i, const int start_index_j, const int end_index_i, const int end_index_j) {
+void verticalFlip(const BoardType *board, const int start_index_i, const int start_index_j, const int end_index_i, const int end_index_j, const piece color) {
 
 }
 
 // flip the pieces in between the indexes
-void diagonalFlip(const int start_index_i, const int start_index_j, const int end_index_i, const int end_index_j) {
+void diagonalFlip(const BoardType *board, const int start_index_i, const int start_index_j, const int end_index_i, const int end_index_j, const piece color) {
 
 }
 
@@ -175,6 +273,8 @@ int main(int argc, char const *argv[]) {
 	BoardType board;
 	initBoard(&board, size);
 	setPieces(&board);
+	placePiece(&board, black, -1, -4);
+	//printf("%d", verticalValid(&board, 1, 2,black));
 	printBoard(&board);
 
 	cleanBoard(&board);
