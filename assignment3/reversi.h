@@ -9,7 +9,7 @@ typedef enum {
 
 typedef struct {
 	piece** pieces;
-	int turn;
+	piece turn;
 	int size;
 } BoardType;
 
