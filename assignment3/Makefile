@@ -1,5 +1,5 @@
 # Define some variables: 
-SOURCES = reversi.c testReversi.c     # could also use patterns $(wildcard *.c)
+SOURCES = reversi.c  testReversi.c   # could also use patterns $(wildcard *.c)
 HEADERS = reversi.h
 OBJECTS = $(SOURCES:.c=.o)
 LIBS = -lm

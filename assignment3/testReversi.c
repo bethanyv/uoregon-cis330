@@ -1,3 +1,8 @@
+#include "reversi.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 int main(int argc, char const *argv[]) {
 	// make the board from specified board size, set initial pieces, and run the game. Clean after 
 	int size;
