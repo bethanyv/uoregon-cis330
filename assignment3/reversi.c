@@ -27,8 +27,8 @@ void runGame(BoardType *board) {
 	int count_bad_turns = 2;
 	while(count_bad_turns) {
 
-		int x = anyValidMoves(board, board->turn);
-		printf("%d\n", x);
+		// int x = anyValidMoves(board, board->turn);
+		// printf("%d\n", x);
 		if(fullBoard(board)) {
 			break;
 		}
@@ -368,7 +368,7 @@ indexType diagonalValid(const BoardType *board, const int x, const int y, const 
 		// player's color, continue going to see if move is legal
 		while(board->pieces[up][left] != color) {
 			// if it's empty, break loop with to_count as the original index
-			if(board->pieces[up][left] == empty || up == -1 || left == -1) {
+			if(up == -1 || left == -1 || board->pieces[up][left] == empty) {
 				to_return.i = start_index_i;
 				to_return.j = start_index_j;
 				boo = 1;
@@ -402,7 +402,7 @@ indexType diagonalValid(const BoardType *board, const int x, const int y, const 
 		// player's color, continue going to see if move is legal
 		while(board->pieces[down][left] != color) {
 			// if it's empty, break loop with to_count as the original index
-			if(board->pieces[down][left] == empty || down == board->size || left == -1) {
+			if(down == board->size || left == -1 || board->pieces[down][left] == empty) {
 				to_return.i = start_index_i;
 				to_return.j = start_index_j;
 				boo = 1;
@@ -435,7 +435,7 @@ indexType diagonalValid(const BoardType *board, const int x, const int y, const 
 		// player's color, continue going to see if move is legal
 		while(board->pieces[up][right] != color) {
 			// if it's empty, break loop with to_count as the original index
-			if(board->pieces[up][right] == empty || up == -1 || right == board->size) {
+			if(up == -1 || right == board->size || board->pieces[up][right] == empty) {
 				to_return.i = start_index_i;
 				to_return.j = start_index_j;
 				boo = 1;
@@ -469,7 +469,7 @@ indexType diagonalValid(const BoardType *board, const int x, const int y, const 
 		// player's color, continue going to see if move is legal
 		while(board->pieces[down][right] != color) {
 			// if it's empty, break loop with to_count as the original index
-			if(down == board->size || board->pieces[down][right] == empty || right == board->size) {
+			if(down == board->size || right == board->size || board->pieces[down][right] == empty) {
 				to_return.i = start_index_i;
 				to_return.j = start_index_j;
 				boo = 1;
@@ -505,15 +505,15 @@ int anyValidMoves(const BoardType *board, const piece color) {
 		for(int j = 0; j < board->size; j++) {
 			if(board->pieces[i][j] == empty) {
 				if(horizontalValid(board, i, j, color) != -1) {
-					printf("Horizontal valid\n");
+					// printf("Horizontal valid\n");
 					return 1;
 				}
 				if(verticalValid(board, i, j, color) != -1) {
-					printf("Vertical valid\n");
+					// printf("Vertical valid\n");
 					return 1;
 				}
 				if(diagonalValid(board, i, j, color).i != i && diagonalValid(board, i, j, color).j != j) {
-					printf("Diagonal valid\n");
+					// printf("Diagonal valid\n");
 					return 1;
 				}
 			}
