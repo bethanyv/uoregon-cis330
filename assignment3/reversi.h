@@ -7,12 +7,16 @@ typedef enum {
 		white, // 2
 	} piece;
 
+// for the board, have a 2D array for the pieces (made of pieces)
+// and a size of the board and who's player's turn is it
 typedef struct {
 	piece** pieces;
 	piece turn;
 	int size;
 } BoardType;
 
+// use kind of like a "point", for saving index places of a spot
+// we want to focus on
 typedef struct {
 	int i;
 	int j;
@@ -50,7 +54,11 @@ int horizontalValid(const BoardType *board, const int start_index_i, const int s
 
 // check if there is a valid diagonal move - if it is, return the 
 // indexes of other piece closing off opponent's pieces. If not, return original points from call
-indexType diagonalValid(const BoardType *board, const int x, const int y, const piece color);
+// left up checks the diagonal left up and right down
+indexType leftUpDiagonalValid(const BoardType *board, const int x, const int y, const piece color);
+
+// right up checks the diagonal right up and left down
+indexType rightUpDiagonalValid(const BoardType *board, const int x, const int y, const piece color);
 
 // check if there are ANY valid moves available for a player (piece will be a color)
 // call all valid functions and if all of them return -1, no moves left
