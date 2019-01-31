@@ -10,6 +10,7 @@ void initBoard(BoardType *board, const int size) {
 	for (int i = 0; i < size; i++) {
 		board->pieces[i] = (piece *) malloc(size * sizeof(piece));
 	}
+	// initialize first player to black
 	board->turn = black;
 	board->size = size;
 
@@ -24,71 +25,67 @@ void initBoard(BoardType *board, const int size) {
 // ask players for what they want to do, place pieces
 void runGame(BoardType *board) {
 	int x, y;
+	// count bad turns is for checking if both players haven't made a move consecutively, 
+	// (no more valid moves for both)
 	int count_bad_turns = 2;
+	// while a turn has been made recently (even if one hasn't placed, the other can)
+	// if it's 0, that means both players can't place, so exit
 	while(count_bad_turns) {
-
-		// int x = anyValidMoves(board, board->turn);
-		// printf("%d\n", x);
+		// if the board is full, break the loop
 		if(fullBoard(board)) {
 			break;
 		}
 		// if there are no valid moves, move to next player
 		if(!anyValidMoves(board, board->turn)) {
 			printf("No valid moves for Player %d\n", board->turn);
-			if(board->turn == white) {
-				board->turn = black;
-			}
-			else{
-				board->turn = white;
-			}
+			switchPlayer(board);
+			// decrement bad turns so we know one has been made
 			count_bad_turns--;
 			continue;
 		}
 
 		printBoard(board);
 
-		printf("\nPlayer %d turn, ", board->turn);
-		
-		printf("input 2 numbers (0-%d) for row and column: ", board->size - 1);
+		printf("\nPlayer %d turn, input 2 numbers (0-%d) for row and column: ", board->turn, board->size - 1);
 		scanf("%d %d", &x, &y);
+
+		// while the input is not within the board size, ask again
 		while(x < 0 || x > board->size - 1 || y < 0 || y > board->size - 1) {
 			printf("\n%s", "Invalid input, please input again (Too big or small of an index): ");
 			scanf("%d %d", &x, &y);
 		}
+		// while the specified area is full, ask again
 		while(board->pieces[x][y] != empty) {
 			printf("\n%s", "Invalid input, please input again (Full spot): ");
 			scanf("%d %d", &x, &y);
 		}
 
+		// treat boo like a boolean, if a piece is placed, set boo to "true" (1)
+		// if a piece couldn't be placed there, it will be set to "false" (0)
 		int boo = placePiece(board, board->turn, x, y);
-		while(!boo && anyValidMoves(board, board->turn) && !fullBoard(board)) {
+		// while a piece wan't placed and there are still valid moves, ask for a different input
+		while(!boo && anyValidMoves(board, board->turn)) {
 			printf("\n%s", "Invalid move! Please try again (there are available moves!): ");
 			scanf("%d %d", &x, &y);
-			if(board->pieces[x][y] != empty) {
-				continue;
-			}
-			if(!anyValidMoves(board,board->turn)) {
-				if(board->turn == white) {
-					board->turn = black;
-				}
-				else{
-					board->turn = white;
-				}
-				break;
-			}
+			// TODO: Delete below if not needed  
+			// if the new input is in a current place or
+			// if(board->pieces[x][y] != empty) {
+			// 	continue;
+			// }
+			// if(!anyValidMoves(board,board->turn)) {
+			// 	switchPlayer(board);
+			// 	break;
+			// }
 			boo = placePiece(board, board->turn, x, y);
 		}
-		// if there was a move made
+		// if there was a move made, reset count bad turns so the game is on track again and switch player turn
 		if(boo) {
 			count_bad_turns = 2;
-			if(board->turn == white) {
-				board->turn = black;
-			}
-			else{
-				board->turn = white;
-			}
+			switchPlayer(board);
 		}
 	}
+	// once out of the while loop, the game is over, print board again
+	// and print finishing scores and who wins
 	printBoard(board);
 	printf("\nGAME OVER!\n");
 	int player1_score = countBlack(board);
@@ -103,54 +100,66 @@ void runGame(BoardType *board) {
 	}
 } 
 
-// will say if the board is full. RETURN 1 IF FULL, else return 0
+// switch the player's turn
+void switchPlayer(BoardType *board) {
+	if(board->turn == white) {
+		board->turn = black;
+	}
+	else{
+		board->turn = white;
+	}
+}
+
+// will say if the board is full. Returns 1 if full, else will return 0
 int fullBoard(BoardType *board) {
-	int count = 0;
+	// if a empty spot is found, return 0
 	for(int i = 0; i < board->size; i++) {
 		for(int j = 0; j < board->size; j++) {
-			if(board->pieces[i][j] != empty) {
-				count++;
+			if(board->pieces[i][j] == empty) {
+				return 0;
 			}
 		}
 	}
-	if(count == board->size*board->size) {
-		return 1;
-	}
-	else {
-		return 0;
-	}
+	return 1;
 }
+
 // place the piece where the user specified by checking if it's valid and flipping 
 // if a piece is placed, return 1. Else return 0
 int placePiece(const BoardType *board, const piece color, const int x, const int y) {
-	// if it is vertical valid
 	int boo = 0; // 0 if nothing has been valid. 1 if something is valid (like a boolean)
+	// struct for containing i and j indexes of a spot
 	indexType from;
 	from.i = x;
 	from.j = y;
+	// check all if valids
 	int vertical_valid = verticalValid(board, x, y, color);
 	int horizontal_valid = horizontalValid(board, x, y, color);
 	indexType diagonal_valid = diagonalValid(board, x, y, color);
 
-
+	// if vertically valid, flip those pieces vertically and set boo = 1 (true)
 	if(vertical_valid != -1) {
 		verticalFlip(board, x, vertical_valid, y, color);
 		boo = 1;
 	}
+	// if horizontal valid, flip horizontal pieces, set boo = 1
 	if(horizontal_valid != -1) {
 		horizontalFlip(board, y, horizontal_valid, x, color);
 		boo = 1;
 	}
-
+	// if diagonal valid at the indexes i and j are not equal to original (if it changed,
+	// which means there is a valid diagonal place) flip
 	if(diagonal_valid.i != x && diagonal_valid.j != y) {
 		diagonalFlip(board, diagonal_valid, from, color);
 		boo = 1;
 	}
-
+	// if something was valid, place the piece that was desired (which
+	// we know is valid because boo = 1, which means we were able to flip
+	// return 1 if a piece was placed
 	if(boo) {
 		board->pieces[x][y] = color;
 		return 1;
 	}
+	// otherwise return 0
 	else {
 		return 0;
 	}
@@ -160,6 +169,7 @@ int placePiece(const BoardType *board, const piece color, const int x, const int
 void setPieces(BoardType *board) {
 	// to set pieces in middle, find size/2 and place at 
 	// (size / 2) and (size / 2) - 1 in both x and y coordinates
+	// will be offset for odd board sizes
 	int size = board->size;
 	board->pieces[size/ 2][size / 2] = white;
 	board->pieces[(size / 2) - 1][size / 2] = black;
@@ -167,11 +177,10 @@ void setPieces(BoardType *board) {
 	board->pieces[size / 2][(size / 2) - 1] = black;
 }
 
-// Print the board in a easy to read way
+// Print the board in a easy to read way (with indexes along axiis)
 void printBoard(const BoardType *board) {
-	// printf("Player 1 > 2     Player 2 > 2");
-	printf("\nPlayer 1 > %d     Player 2 > %d", countBlack(board), countWhite(board));
-	printf("\n\n");
+	// print scores every time board is printed
+	printf("\nPlayer 1 > %d     Player 2 > %d \n\n", countBlack(board), countWhite(board));
 
 	// print initial space for empty corner before indexes
 	printf("  ");
@@ -497,23 +506,21 @@ indexType diagonalValid(const BoardType *board, const int x, const int y, const 
 	return to_return;
 }
 
-// check if there are ANY valid moves available for a player (piece will be a color)
-// call all valid functions and if all of them return -1, no moves left
-// returns 0 if no valid move, return 1 if valid move
+// check if there are ANY valid moves available for a player (piece will be a color of player playing)
+// call all valid functions and if all of them return -1 which means no moves left
+// if there is a valid move, return; returns 0 if no valid move
 int anyValidMoves(const BoardType *board, const piece color) {
 	for(int i = 0; i < board->size; i++) {
 		for(int j = 0; j < board->size; j++) {
+			// as long as the spot looking at is empty, check that space for the certain color
 			if(board->pieces[i][j] == empty) {
 				if(horizontalValid(board, i, j, color) != -1) {
-					// printf("Horizontal valid\n");
 					return 1;
 				}
 				if(verticalValid(board, i, j, color) != -1) {
-					// printf("Vertical valid\n");
 					return 1;
 				}
 				if(diagonalValid(board, i, j, color).i != i && diagonalValid(board, i, j, color).j != j) {
-					// printf("Diagonal valid\n");
 					return 1;
 				}
 			}
@@ -525,6 +532,7 @@ int anyValidMoves(const BoardType *board, const piece color) {
 // flip the pieces in between the indexes
 void horizontalFlip(const BoardType *board, const int start_index_j, const int end_index_j, const int index_i, const piece color) {
 	int lower, higher;
+	// lower and higher are for iterating through using ++, just start at the lower number for the for loop
 	if(start_index_j < end_index_j) {
 		lower = start_index_j;
 		higher = end_index_j;
@@ -533,7 +541,7 @@ void horizontalFlip(const BoardType *board, const int start_index_j, const int e
 		lower = end_index_j;
 		higher = start_index_j;
 	}
-
+	// for each index wanted, flip the pieces, index_i doesn't change because vertically no i index changes
 	for(int j = lower; j < higher; j++) {
 		board->pieces[index_i][j] = color;
 	}
@@ -542,6 +550,7 @@ void horizontalFlip(const BoardType *board, const int start_index_j, const int e
 // flip the pieces in between the indexes
 void verticalFlip(const BoardType *board, const int start_index_i, const int end_index_i, const int index_j, const piece color) {
 	int lower, higher;
+	// lower and higher are for iterating through using ++, just start at the lower number for the for loop
 	if(start_index_i < end_index_i) {
 		lower = start_index_i;
 		higher = end_index_i;
@@ -552,33 +561,44 @@ void verticalFlip(const BoardType *board, const int start_index_i, const int end
 	}
 
 	for(int i = lower; i < higher; i++) {
+		// for each index wanted, flip the pieces, index_j doesn't change because vertically no j index changes
 		board->pieces[i][index_j] = color;
 	}
 }
 
 // flip the pieces in between the indexes
 void diagonalFlip(const BoardType *board, const indexType from, const indexType to, const piece color) {
-	int loweri, lowerj, higheri, higherj;
+	// if the from point i is less than the to point i, iterate with ++ on i (moving down board)
 	if(from.i < to.i) {
+		// l for keeping track of j, don't want another for loop because then it'll fill too many places
 		int l = from.j;
 		for(int k = from.i; k < to.i; k++) {
+			// if from point j is less than to point j (the from piece is to the left of to), 
+			// iterate j with ++ since going right
 			if(from.j < to.j) {
 				board->pieces[k][l] = color;
 				l++;
 			}
+			// otherwise if from point j is greater then to point j (the from piece is to the right of to),
+			// iterate with j -- since we are going left
 			if(from.j > to.j) {
 				board->pieces[k][l] = color;
 				l--;
 			}
 		}
 	}
+	// if the from point i is greater than the to point i, iterate with -- on i (moving up board)
 	if(from.i > to.i) {
 		int l = from.j;
 		for(int k = from.i; k > to.i; k--) {
+			// if from point j is less than to point j (the from piece is to the left of to), 
+			// iterate j with ++ since going right
 			if(from.j < to.j) {
 				board->pieces[k][l] = color;
 				l++;
 			}
+			// otherwise if from point j is greater then to point j (the from piece is to the right of to),
+			// iterate with j -- since we are going left
 			if(from.j > to.j) {
 				board->pieces[k][l] = color;
 				l--;
@@ -645,9 +665,6 @@ int main(int argc, char const *argv[]) {
 	initBoard(&board, size);
 	setPieces(&board);
 	runGame(&board);
-	// placePiece(&board, black, -1,-1);
-	//printf("%d", verticalValid(&board, 1, 2,black));
-	//printBoard(&board);
 
 	cleanBoard(&board);
 	return 0;

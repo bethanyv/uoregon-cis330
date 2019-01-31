@@ -27,6 +27,9 @@ void runGame(BoardType *board); // ask players for what they want to do, place p
 // set the beginning pieces in the center
 void setPieces(BoardType *board);
 
+// switch who's turn it is
+void switchPlayer(BoardType *board);
+
 // will say if the board is full. RETURN 1 IF FULL, else return 0
 int fullBoard(BoardType *board);
 
