@@ -235,7 +235,7 @@ int verticalValid(const BoardType *board, const int start_index_i, const int sta
 	if(increasing < board->size && increasing > -1) {
 		// increasing first, while the spot directly below the spot of the
 		// selected space isn't the color of the player making the move
-		while(board->pieces[increasing][start_index_j] != color) {
+		while(increasing == board->size || board->pieces[increasing][start_index_j] != color) {
 			// if the spot is empty though, set the count to the beginning index to try decreasing instead
 			// break this loop so it doesn't continue
 			if(board->pieces[increasing][start_index_j] == empty) {
@@ -249,10 +249,9 @@ int verticalValid(const BoardType *board, const int start_index_i, const int sta
 			// with boo as 1 so we don't update returning index
 			if(increasing == board->size) {
 				boo = 1;
-				break;
 			}
 			// if we hit the "end" (the color we want), break
-			if(board->pieces[increasing][start_index_j] == color) {
+			if(increasing == board->size || board->pieces[increasing][start_index_j] == color) {
 				break;
 			}
 		}
@@ -270,7 +269,7 @@ int verticalValid(const BoardType *board, const int start_index_i, const int sta
 		// while the next piece isn't our color, continue searching for our end piece
 		while(board->pieces[decreasing][start_index_j] != color) {
 			// if the piece above it is empty, set index back to original starting point and break loop so it doesn't continue
-			if(board->pieces[decreasing][start_index_j] == empty) {
+			if(decreasing == -1 || board->pieces[decreasing][start_index_j] == empty) {
 				to_count = start_index_i;
 				boo = 1;
 				break;
@@ -281,9 +280,8 @@ int verticalValid(const BoardType *board, const int start_index_i, const int sta
 			// if either of these are true, break because we are done
 			if(decreasing == -1) {
 				boo = 1;
-				break;
 			}
-			if(board->pieces[decreasing][start_index_j] == color) {
+			if(decreasing == -1 || board->pieces[decreasing][start_index_j] == color) {
 				break;
 			}
 		}
@@ -313,7 +311,7 @@ int horizontalValid(const BoardType *board, const int start_index_i, const int s
 		// player's color, continue going to see if move is legal
 		while(board->pieces[start_index_i][increasing] != color) {
 			// if it's empty, break loop with to_count as the original index
-			if(board->pieces[start_index_i][increasing] == empty) {
+			if(increasing == board->size || board->pieces[start_index_i][increasing] == empty) {
 				to_count = start_index_j;
 				boo = 1;
 				break;
@@ -324,7 +322,6 @@ int horizontalValid(const BoardType *board, const int start_index_i, const int s
 			// when we break we will have the index we were looking for of the "end" piece
 			if(increasing == board->size) {
 				boo = 1;
-				break;
 			}
 			// if color piece we want is found, break
 			if(board->pieces[start_index_i][increasing] == color) {
@@ -344,7 +341,7 @@ int horizontalValid(const BoardType *board, const int start_index_i, const int s
 		// while the next piece isn't the color we are looking for, keep looking
 		while(board->pieces[start_index_i][decreasing] != color) {
 			// if it's empty though, set to_count back to starting index
-			if(board->pieces[start_index_i][decreasing] == empty) {
+			if(decreasing == -1 || board->pieces[start_index_i][decreasing] == empty) {
 				to_count = start_index_j;
 				boo = 1;
 				break;
@@ -355,10 +352,9 @@ int horizontalValid(const BoardType *board, const int start_index_i, const int s
 			// if it is, break so we have the current index
 			if(decreasing == -1) {
 				boo = 1;
-				break;
 			}
 			// if we find our other piece, break
-			if(board->pieces[start_index_i][decreasing] == color) {
+			if(decreasing == -1 ||  board->pieces[start_index_i][decreasing] == color) {
 				break;
 			}
 		}
@@ -400,7 +396,7 @@ indexType leftUpDiagonalValid(const BoardType *board, const int x, const int y, 
 		while(board->pieces[up][left] != color) {
 			// if it's empty, break loop with to_count as the original index
 			// update boo so we don't change indexes later - make 1 to mark difference
-			if(board->pieces[up][left] == empty) {
+			if(up == -1 || left == -1 || board->pieces[up][left] == empty) {
 				to_return.i = start_index_i;
 				to_return.j = start_index_j;
 				boo = 1;
@@ -415,10 +411,9 @@ indexType leftUpDiagonalValid(const BoardType *board, const int x, const int y, 
 				to_return.i = start_index_i;
 				to_return.j = start_index_j;
 				boo = 1;
-				break;
 			}
 			// if we hit the color we want, break
-			if(board->pieces[up][left] == color) {
+			if(up == -1 || left == -1 || board->pieces[up][left] == color) {
 				break;
 			}
 		}
@@ -432,14 +427,16 @@ indexType leftUpDiagonalValid(const BoardType *board, const int x, const int y, 
 	}
 	// "reset" boo for next part, might've been "incorrect move" up above, so reset for right down
 	boo = 0;
-	// right up diagonal
+	to_return.i = start_index_i;
+	to_return.j = start_index_j;
+	// right down diagonal
 	// same logic as left up, index by increasing j and increasing i for correct indexes
 	if(down < board->size && down > -1 && right < board->size && right > -1) {
 		// increasing first, while the piece to the right is not equal to the 
 		// player's color, continue going to see if move is legal
 		while(board->pieces[down][right] != color) {
 			// if it's empty, break loop with to_count as the original index
-			if(board->pieces[down][right] == empty) {
+			if(down == board->size || right == board->size || board->pieces[down][right] == empty) {
 				to_return.i = start_index_i;
 				to_return.j = start_index_j;
 				boo = 1;
@@ -454,10 +451,9 @@ indexType leftUpDiagonalValid(const BoardType *board, const int x, const int y, 
 				to_return.i = start_index_i;
 				to_return.j = start_index_j;
 				boo = 1;
-				break;
 			}
 			// if we hit the color, we will have the index we were looking for of the "end" piece
-			if(board->pieces[down][right] == color) {
+			if(down == board->size || right == board->size || board->pieces[down][right] == color) {
 				break;
 			}
 		}
@@ -493,7 +489,7 @@ indexType rightUpDiagonalValid(const BoardType *board, const int x, const int y,
 		// player's color, continue going to see if move is legal
 		while(board->pieces[down][left] != color) {
 			// if it's empty, break loop with to_count as the original index
-			if(board->pieces[down][left] == empty) {
+			if(down == board->size || left == -1 || board->pieces[down][left] == empty) {
 				to_return.i = start_index_i;
 				to_return.j = start_index_j;
 				boo = 1;
@@ -507,10 +503,9 @@ indexType rightUpDiagonalValid(const BoardType *board, const int x, const int y,
 				to_return.i = start_index_i;
 				to_return.j = start_index_j;
 				boo = 1;
-				break;
 			}
 			// when we break we will have the index we were looking for of the "end" piece
-			if(board->pieces[down][left] == color) {
+			if(down == board->size || left == -1 || board->pieces[down][left] == color) {
 				break;
 			}
 		}
@@ -525,6 +520,8 @@ indexType rightUpDiagonalValid(const BoardType *board, const int x, const int y,
 	}
 	// "reset" boo so it doesn't interfere when looking through right up
 	boo = 0;
+	to_return.i = start_index_i;
+	to_return.j = start_index_j;
 	// RIGHT UP - same logic as above, just decrease up to keep going up and
 	// increase right to keep going right
 	if(up < board->size && up > -1 && right < board->size && right > -1) {
@@ -532,7 +529,7 @@ indexType rightUpDiagonalValid(const BoardType *board, const int x, const int y,
 		// player's color, continue going to see if move is legal
 		while(board->pieces[up][right] != color) {
 			// if it's empty, break loop with to_count as the original index
-			if(board->pieces[up][right] == empty) {
+			if(up == -1 || right == board->size || board->pieces[up][right] == empty) {
 				to_return.i = start_index_i;
 				to_return.j = start_index_j;
 				boo = 1;
@@ -546,10 +543,9 @@ indexType rightUpDiagonalValid(const BoardType *board, const int x, const int y,
 				to_return.i = start_index_i;
 				to_return.j = start_index_j;
 				boo = 1;
-				break;
 			}
 			// when we break we will have the index we were looking for of the "end" piece
-			if(board->pieces[up][right] == color) {
+			if(up == -1 || right == board->size || board->pieces[up][right] == color) {
 				break;
 			}
 		}
