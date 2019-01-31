@@ -67,8 +67,11 @@ void runGame(BoardType *board) {
 		while(!boo && anyValidMoves(board, board->turn)) {
 			printf("\n%s", "Invalid move! Please try again (there are available moves!): ");
 			scanf("%d %d", &x, &y);
-			// TODO: Delete below if not needed  
-			//if the new input is in a current place or
+			// if outside the board size, ask again
+			if(x < 0 || x > board->size - 1 || y < 0 || y > board->size - 1) {
+				continue;
+			}
+			// if it's full, ask again
 			if(board->pieces[x][y] != empty) {
 				continue;
 			}
