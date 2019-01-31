@@ -27,6 +27,9 @@ void runGame(BoardType *board); // ask players for what they want to do, place p
 // set the beginning pieces in the center
 void setPieces(BoardType *board);
 
+// will say if the board is full. RETURN 1 IF FULL, else return 0
+int fullBoard(BoardType *board);
+
 // Print the board in a easy to read way
 void printBoard(const BoardType *board);
 
@@ -57,7 +60,7 @@ void horizontalFlip(const BoardType *board, const int start_index_j, const int e
 void verticalFlip(const BoardType *board, const int start_index_i, const int end_index_i, const int index_j, const piece color);
 
 // flip the pieces in between the indexes
-void diagonalFlip(const BoardType *board, indexType from, indexType to, const piece color);
+void diagonalFlip(const BoardType *board, const indexType from, const indexType to, const piece color);
 
 // counts number of black pieces
 int countBlack(const BoardType *board);
