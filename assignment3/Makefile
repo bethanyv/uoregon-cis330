@@ -7,12 +7,8 @@ LIBS = -lm
 CC = gcc
 CFLAGS = -std=c11 -g -fPIC
 
-# Next, we have the rules defining how the action corresponding to each target 
-# should be performed. 
-#
-# Anatomy of a rule:
-# Target : Dependencies
-#    Bash commands (must be indented using TAB)
+.PHONY: reversi
+reversi: reversi.exe
 
 %.o: %.c
 	$(CC) -c $(CFLAGS) $<
