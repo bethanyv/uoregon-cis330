@@ -645,24 +645,24 @@ void cleanBoard(BoardType *board) {
 	free(board->pieces);
 }
 
-int main(int argc, char const *argv[]) {
-	// make the board from specified board size, set initial pieces, and run the game. Clean after 
-	int size;
+// int main(int argc, char const *argv[]) {
+// 	// make the board from specified board size, set initial pieces, and run the game. Clean after 
+// 	int size;
 
-	printf("Please enter the size of the board: ");
-	scanf("%d", &size);
+// 	printf("Please enter the size of the board (4-16): ");
+// 	scanf("%d", &size);
 
-	while(size < 4 || size > 16) {
-		printf("Invalid board size, please input again (4-16)\n");
-		printf("Please enter the size of the board: ");
-		scanf("%d", &size);
-	}
+// 	while(size < 4 || size > 16) {
+// 		printf("Invalid board size, please input again (4-16)\n");
+// 		printf("Please enter the size of the board: ");
+// 		scanf("%d", &size);
+// 	}
 
-	BoardType board;
-	initBoard(&board, size);
-	setPieces(&board);
-	runGame(&board);
+// 	BoardType board;
+// 	initBoard(&board, size);
+// 	setPieces(&board);
+// 	runGame(&board);
 
-	cleanBoard(&board);
-	return 0;
-}
+// 	cleanBoard(&board);
+// 	return 0;
+// }
