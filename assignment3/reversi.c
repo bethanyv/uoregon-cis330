@@ -215,7 +215,7 @@ void printBoard(const BoardType *board) {
 int verticalValid(const BoardType *board, const int start_index_i, const int start_index_j, const piece color) {
 	// check if there is a valid vertical move - if it is, return the 
 	// i index of ending piece that closes space we want to flip
-	// (because for vertical, j is the same) 
+	// (because for vertical, j is the same as initial index) 
 	// If no legal move, return -1
 
 	int increasing = start_index_i + 1;
@@ -611,6 +611,7 @@ void diagonalFlip(const BoardType *board, const indexType from, const indexType 
 // counts number of black pieces
 int countBlack(const BoardType *board) {
 	int count = 0;
+	// iterate through board and count any black pieces found
 	for(int i = 0; i < board->size; i++) {
 		for(int j = 0; j < board->size; j++) {
 			if(board->pieces[i][j] == black) {
@@ -624,6 +625,7 @@ int countBlack(const BoardType *board) {
 // counts number of white pieces
 int countWhite(const BoardType *board) {
 	int count = 0;
+	// iterate through board and count any white pieces found
 	for(int i = 0; i < board->size; i++) {
 		for(int j = 0; j < board->size; j++) {
 			if(board->pieces[i][j] == white) {
@@ -639,17 +641,12 @@ void cleanBoard(BoardType *board) {
 	for(int i = 0; i < board->size; i++) {
 		free(board->pieces[i]);
 	}
-	// free the array that held all the digit lines of the clock
+	// free the array that held all the pieces
 	free(board->pieces);
 }
 
 int main(int argc, char const *argv[]) {
-	/*
-	Ask players for input, 
-	make the board (init), 
-	initalize the first few pieces (setpieces)
-	runGame (calls print board every turn)
-	*/
+	// make the board from specified board size, set initial pieces, and run the game. Clean after 
 	int size;
 
 	printf("Please enter the size of the board: ");
