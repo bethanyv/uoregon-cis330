@@ -10,10 +10,12 @@ int main(int argc, char **argv) {
 	for (i = 0; i < size; i++)
 		num[i] = new int[size];
 
-	i = 0;
         // Set values
-	for (j = 0; j < size; j++)
-		num[i][j] = i * size + j;
+	for(i = 0; i < size; i++) {
+		for (j = 0; j < size; j++)
+			num[i][j] = i * size + j;
+		}
+	}
 
 	// Print values
 	for (i = 0; i < size; i++) {
