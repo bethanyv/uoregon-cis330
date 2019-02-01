@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
 	}
 
 	// Deallocate memory
-	for (i = 0; i <= size; i++)
+	for (i = 0; i < size; i++)
 		free(num[i]);
 	free(num);
 }
