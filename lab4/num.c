@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
 		}
 		printf("\n");
 	}
-
+	i = 0;
 	// Deallocate memory
 	for (i = 0; i < size; i++)
 		free(num[i]);
