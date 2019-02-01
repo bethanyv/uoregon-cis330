@@ -6,9 +6,9 @@ int main(int argc, char **argv) {
 	int size = 5, i, j;
 
 	// Allocate memory for 2-D int array
-	num = new int * [size]
+	num = new int * [size];
 	for (i = 0; i < size; i++)
-		num[i] = new int[size]
+		num[i] = new int[size];
 
 	i = 0;
         // Set values
