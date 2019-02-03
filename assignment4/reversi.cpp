@@ -37,7 +37,7 @@ void runGame(BoardType *board) {
 		}
 		// if there are no valid moves, move to next player
 		if(!anyValidMoves(board, board->turn)) {
-			printf("No valid moves for Player %d\n", board->turn);
+			std::cout << "No valid moves for Player" << board->turn << "\n";
 			switchPlayer(board);
 			// decrement bad turns so we know one has been made
 			count_bad_turns--;
@@ -46,18 +46,18 @@ void runGame(BoardType *board) {
 
 		printBoard(board);
 
-		printf("\nPlayer %d turn, input 2 numbers (0-%d) for row and column: ", board->turn, board->size - 1);
-		scanf("%d %d", &x, &y);
+		std::cout << "\nPlayer " << board->turn << " turn, input 2 numbers (0-" << board->size - 1 << ") for row and column: ";
+		std::cin >> x >> y;
 
 		// while the input is not within the board size, ask again
 		while(x < 0 || x > board->size - 1 || y < 0 || y > board->size - 1) {
-			printf("\n%s", "Invalid input, please input again (Too big or small of an index): ");
-			scanf("%d %d", &x, &y);
+			std::cout << "\nInvalid input, please input again (Too big or small of an index): ";
+			std::cin >> x >> y;
 		}
 		// while the specified area is full, ask again
 		while(board->pieces[x][y] != empty) {
-			printf("\n%s", "Invalid input, please input again (Full spot): ");
-			scanf("%d %d", &x, &y);
+			std::cout << "\nInvalid input, please input again (Full spot): ";
+			std::cin >> x >> y;
 		}
 
 		// treat boo like a boolean, if a piece is placed, set boo to "true" (1)
@@ -65,8 +65,8 @@ void runGame(BoardType *board) {
 		int boo = placePiece(board, board->turn, x, y);
 		// while a piece wan't placed and there are still valid moves, ask for a different input
 		while(!boo && anyValidMoves(board, board->turn)) {
-			printf("\n%s", "Invalid move! Please try again (there are available moves!): ");
-			scanf("%d %d", &x, &y);
+			std::cout << "\nInvalid move! Please try again (there are available moves!): ";
+			std::cin >> x >> y;
 			// if outside the board size, ask again
 			if(x < 0 || x > board->size - 1 || y < 0 || y > board->size - 1) {
 				continue;
@@ -90,16 +90,16 @@ void runGame(BoardType *board) {
 	// once out of the while loop, the game is over, print board again
 	// and print finishing scores and who wins
 	printBoard(board);
-	printf("\nGAME OVER!\n");
+	std::cout << "\nGAME OVER!\n";
 	int player1_score = countBlack(board);
 	int player2_score = countWhite(board);
-	printf("\nPlayer 1 > %d", player1_score);
-	printf("\nPlayer 2 > %d\n", player2_score);
+	std::cout << "\nPlayer 1 > " << player1_score;
+	std::cout << "\nPlayer 2 > " << player2_score << "\n";
 	if(player1_score > player2_score) {
-		printf("\nPLAYER 1 WINS\n");
+		std::cout << "\nPLAYER 1 WINS\n";
 	}
 	else{
-		printf("\nPLAYER 2 WINS!!\n");
+		std::cout << "\nPLAYER 2 WINS!!\n";
 	}
 } 
 
@@ -188,35 +188,35 @@ void setPieces(BoardType *board) {
 // Print the board in a easy to read way (with indexes along axiis)
 void printBoard(const BoardType *board) {
 	// print scores every time board is printed
-	printf("\nPlayer 1 > %d     Player 2 > %d \n\n", countBlack(board), countWhite(board));
+	std::cout << "\nPlayer 1 > " << countBlack(board) << "     Player 2 > " << countWhite(board) " \n\n";
 
 	// print initial space for empty corner before indexes
-	printf("  ");
+	std::cout << "  ";
 	// print the j indexes across the top
 	for(int k = 0; k < board->size; k++) {
-		printf("%d ", k);
+		std::cout << k << " ";
 	}
 	// new line before printing every line of board with i index
-	printf("\n");
+	std::cout << "\n";
 	for(int i = 0; i < board->size; i++) {
 		// start with printing i so players know where the index is
-		printf("%d ", i);
+		std::cout << i << " ";
 		// iterate through each piece in the i row to print them
 		for(int j = 0; j < board->size; j++) {
 			piece x = board->pieces[i][j];
 			// if they are black, print X; if white, print O; if empty, print .
 			if(x == black) {
-				printf("%s ", "X");
+				std::cout << "X ";
 			}
 			else if(x == white) {
-				printf("%s ", "O");
+				std::cout << "O ";
 			}
 			else {
-				printf(". ");
+				std::cout << ". ";
 			}
 		}
 		// new line before next row
-		printf("\n");
+		std::cout << "\n";
 	}
 }
 
