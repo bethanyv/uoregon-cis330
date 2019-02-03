@@ -1,16 +1,16 @@
 # Define some variables: 
-SOURCES = reversi.c  testReversi.c   # could also use patterns $(wildcard *.c)
+SOURCES = reversi.cpp  testReversi.cpp
 HEADERS = reversi.h
-OBJECTS = $(SOURCES:.c=.o)
+OBJECTS = $(SOURCES:.cpp=.o)
 LIBS = -lm
 
-CC = gcc
-CFLAGS = -std=c11 -g -fPIC
+CC = g++
+CFLAGS = -std=c++14 -g
 
 .PHONY: reversi
 reversi: reversi.exe
 
-%.o: %.c
+%.o: %.cpp
 	$(CC) -c $(CFLAGS) $<
 
 tests: reversi.exe

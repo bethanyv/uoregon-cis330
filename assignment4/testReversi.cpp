@@ -15,9 +15,9 @@ int main(int argc, char const *argv[]) {
 	}
 
 	BoardType board(size);
-	// setPieces(&board);
-	// runGame(&board);
+	board.setPieces();
+	board.runGame();
 
-	// cleanBoard(&board);
+	board.cleanBoard();
 	return 0;
 }
