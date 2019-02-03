@@ -5,7 +5,7 @@
 
 // Initialize the board
 BoardType::BoardType(int size) {
-	size = size;
+	this->size = size;
 	// allocate memory for the board depending on the size the player chose
 	pieces = new piece * [size];
 	for (int i = 0; i < size; i++) {
