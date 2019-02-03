@@ -14,8 +14,7 @@ int main(int argc, char const *argv[]) {
 		std::cin >> size;
 	}
 
-	// BoardType board;
-	// initBoard(&board, size);
+	BoardType board(size);
 	// setPieces(&board);
 	// runGame(&board);
 
