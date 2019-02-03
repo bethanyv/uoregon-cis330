@@ -179,7 +179,6 @@ void BoardType::setPieces() {
 	// to set pieces in middle, find size/2 and place at 
 	// (size / 2) and (size / 2) - 1 in both x and y coordinates
 	// will be offset for odd board sizes
-	int size = size;
 	pieces[size/ 2][size / 2] = white;
 	pieces[(size / 2) - 1][size / 2] = black;
 	pieces[(size / 2) - 1][(size / 2) - 1] = white;
