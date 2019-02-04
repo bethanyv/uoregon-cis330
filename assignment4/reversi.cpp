@@ -693,7 +693,7 @@ int BoardType::countWhite() {
 }
 
 // Free up any dynamically allocated memory
-void BoardType::cleanBoard() {
+BoardType::~BoardType() {
 	for(int i = 0; i < size; i++) {
 		delete [] pieces[i];
 	}

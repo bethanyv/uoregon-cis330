@@ -79,8 +79,8 @@ class BoardType {
 		// counts number of white pieces
 		int countWhite();
 
-		// Free up any dynamically allocated memory
-		void cleanBoard();
+		// Free up any dynamically allocated memory with a destructor
+		~BoardType();
 };
 
 #endif /* REVERSI_H_ */

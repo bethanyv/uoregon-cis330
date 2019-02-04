@@ -18,6 +18,5 @@ int main(int argc, char const *argv[]) {
 	board.setPieces();
 	board.runGame();
 
-	board.cleanBoard();
 	return 0;
 }
