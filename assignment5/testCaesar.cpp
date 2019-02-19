@@ -15,20 +15,20 @@ int main(int argc, const char *argv[]) {
 	input = io.readFromStream();
 	std::cout << "Original text:" << std::endl << input;
 
-	// 2. Test various ciphers
-
-	// Simple ROT13 cipher
+	// create new caesar cipher
 	Caesar caesar;
 	encrypted = caesar.encrypt(input);
+	// print encryption
 	std::cout << "Encrypted text:" << std::endl << encrypted;
 
 	decrypted = caesar.decrypt(encrypted);
+	// print decryption
 	std::cout << "Decrypted text:" << std::endl << decrypted;
 
 	if (decrypted == input) std::cout << "Decrypted text matches input!" << std::endl;
 	else {
 		std::cout << "Oops! Decrypted text doesn't match input!" << std::endl;
-		return 1;   // Make sure to return a non-zero value to indicate failure
+		return 1;   // Return non-zero to show it failed
 	}
 
 	return 0;
