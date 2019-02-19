@@ -28,7 +28,7 @@ Date::encrypt( std::string &inputText ) {
     for (int i = 0; i != len; ++i) {
         int add_index; // for the numerical value of the index in the number str
         if(text[i] != ' ') {
-            add_index = stoi(text[counter]);
+            add_index = text[counter];
             counter += 1;
             // lowercase
             if (text[i] >= 'a' && text[i] <= 'z') {
