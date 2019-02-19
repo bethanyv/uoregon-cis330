@@ -40,7 +40,7 @@ Date::encrypt( std::string &inputText ) {
             else if (text[i] >= 'A' && text[i] <= 'Z') {
                 // change index from number_str into int and index into HIGHER and change text[i] to this letter
                 std::size_t found_index = this->UPPER.find(text[i]);
-                text[i] = UPPER[(found_index + add_index) % 26];
+                text[i] = LOWER[(found_index + add_index) % 26];
             }
         }
     }
