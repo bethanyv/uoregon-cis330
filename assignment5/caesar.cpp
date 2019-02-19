@@ -4,7 +4,7 @@
 #include "caesar.hpp"
 
 // Single-argument constructor, initialized key to 2
-Caesar::Caesar() : Cipher(), key(2) {
+Caesar::Caesar() : Cipher(), key(15) {
 }
 
 
