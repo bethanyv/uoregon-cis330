@@ -14,8 +14,9 @@ public:
 	virtual std::string encrypt( std::string &text );
 	virtual std::string decrypt( std::string &text );
 private:
-	
-
+	string date;
+	std::string LOWER = "abcdefghijklmnopqrstuvwxyz";
+	std::string UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 };
 
 #endif /* DATE_HPP_ */
