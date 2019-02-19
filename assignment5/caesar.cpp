@@ -55,17 +55,22 @@ Caesar::decrypt( std::string &text ) {
             if(index < 0) {
                 index = 27 + index;
             }
-            // index into correct index
+            // index into correct index and set letter to new letter
             text[i] = LOWER[index];
 
-        } else if(text[i] >= 'A' && text[i] <= 'Z') { // uppercase
+            // uppercase
+        } else if(text[i] >= 'A' && text[i] <= 'Z') { 
+            // find index of current letter in UPPER string
             std::size_t found_index = this->UPPER.find(text[i]);
+            // subtract key since we are decrypting
             int index = found_index - this->key;
 
+            // if it's negative after subtracting, make positive by adding 26.
             if(index < 0) {
                 index = 26 + index;
             }
 
+            // index into correct index to set new character
             text[i] = UPPER[index];
         }
     }
