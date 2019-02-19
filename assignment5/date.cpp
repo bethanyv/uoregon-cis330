@@ -26,17 +26,21 @@ Date::encrypt( std::string &inputText ) {
     
     int counter = 0; // for indexing into number_str
     for (int i = 0; i != len; ++i) {
+        int add_index; // for the numerical value of the index in the number str
         if(text[i] != ' ') {
+            add_index = stoi(text[counter]);
             counter += 1;
             // lowercase
             if (text[i] >= 'a' && text[i] <= 'z') {
                 // change index from number_str into int and index into LOWER and change text[i] to this letter
-                
+                std::size_t found_index = this->LOWER.find(text[i]);
+                text[i] = LOWER[(found_index + add_index) % 26];
             }
             // uppercase
             else if (text[i] >= 'A' && text[i] <= 'Z') {
                 // change index from number_str into int and index into HIGHER and change text[i] to this letter
-
+                std::size_t found_index = this->UPPER.find(text[i]);
+                text[i] = UPPER[(found_index + add_index) % 26];
             }
         }
     }
