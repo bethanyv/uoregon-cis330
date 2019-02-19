@@ -8,7 +8,6 @@ Caesar::Caesar() : Cipher(), key(2) {
 }
 
 
-// Overloaded encrypt method
 std::string
 Caesar::encrypt( std::string &inputText ) {
 
@@ -18,13 +17,19 @@ Caesar::encrypt( std::string &inputText ) {
     std::size_t found_index = 0;
 
 	for (int i = 0; i != len; ++i) {
-        // lowercase
+        // if it's lowercase OR a space, handle with LOWER string
         if (text[i] >= 'a' && text[i] <= 'z' || text[i] == ' ') { 
+            // find the index of the character in the string
             std::size_t found_index = this->LOWER.find(text[i]);
+            // index to where the original character was PLUS the key. 
+            // Modulo 27 for making sure the index isn't greater than the LOWER string
             text[i] = LOWER[(found_index + this->key) % 27];
 
-        } else if(text[i] >= 'A' && text[i] <= 'Z') { // uppercase
+        } else if(text[i] >= 'A' && text[i] <= 'Z') { 
+            // find the index of the character in the UPPER string
             std::size_t found_index = this->UPPER.find(text[i]);
+            // index to where the original character was PLUS the key. 
+            // Modulo 26 for making sure the index isn't greater than the UPPER string
             text[i] = UPPER[(found_index + this->key) % 26];
         }
 	}
