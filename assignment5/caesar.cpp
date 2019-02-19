@@ -38,20 +38,25 @@ Caesar::encrypt( std::string &inputText ) {
 
 std::string
 Caesar::decrypt( std::string &text ) {
-	// A Rot13 encryption is also a decryption (26 letters in the English alphabet)
+	// Decrypt is opposite of encrypt with just subtracting the key instead of adding
 	std::string::size_type len = text.length();
     std::size_t found_index = 0;
 
     for (int i = 0; i != len; ++i) {
-        if (text[i] >= 'a' && text[i] <= 'z' || text[i] == ' ') { // lowercase
+         // if it's lowercase, handle differently than upper
+        if (text[i] >= 'a' && text[i] <= 'z' || text[i] == ' ') {
+            // find the index of where the character is in the LOWER string
             std::size_t found_index = this->LOWER.find(text[i]);
+            // for the new index, subtract the key
             int index = found_index - this->key;
 
+            // if the index is negative, make sure to add 27 (including space) 
+            // to make it postive again
             if(index < 0) {
                 index = 27 + index;
             }
-
-            text[i] = LOWER[index % 27];
+            // index into correct index
+            text[i] = LOWER[index];
 
         } else if(text[i] >= 'A' && text[i] <= 'Z') { // uppercase
             std::size_t found_index = this->UPPER.find(text[i]);
@@ -61,7 +66,7 @@ Caesar::decrypt( std::string &text ) {
                 index = 26 + index;
             }
 
-            text[i] = UPPER[index % 26];
+            text[i] = UPPER[index];
         }
     }
     return text;
