@@ -3,9 +3,8 @@
 #include "cipher.hpp"
 #include "caesar.hpp"
 
-// Single-argument constructor
+// Single-argument constructor, initialized key to 2
 Caesar::Caesar() : Cipher(), key(2) {
-	// Nothing else to do in the constructor
 }
 
 
@@ -15,10 +14,12 @@ Caesar::encrypt( std::string &inputText ) {
 
 	std::string text = inputText;
 	std::string::size_type len = text.length();
+    // found_index for finding the index of where the letter is in the alphabet
     std::size_t found_index = 0;
 
 	for (int i = 0; i != len; ++i) {
-        if (text[i] >= 'a' && text[i] <= 'z' || text[i] == ' ') { // lowercase
+        // lowercase
+        if (text[i] >= 'a' && text[i] <= 'z' || text[i] == ' ') { 
             std::size_t found_index = this->LOWER.find(text[i]);
             text[i] = LOWER[(found_index + this->key) % 27];
 
