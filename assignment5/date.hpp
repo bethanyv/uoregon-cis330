@@ -14,7 +14,9 @@ public:
 	virtual std::string encrypt( std::string &text );
 	virtual std::string decrypt( std::string &text );
 private:
-	string date;
+	// string date for the numerical date
+	std::string date;
+	// save the alphabets as upper and lower so case is preserved
 	std::string LOWER = "abcdefghijklmnopqrstuvwxyz";
 	std::string UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 };
