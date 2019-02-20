@@ -14,7 +14,8 @@ public:
 	virtual std::string encrypt( std::string &text );
 	virtual std::string decrypt( std::string &text );
 private:
-	// need key to know how much to shift by,
+	// need key to know how much to shift by (and for different classes
+	// of Caesar called, different keys can be initialized easily,
 	// UPPER and LOWER for indexing into correct positions
 	// kept seperate for space, and capitaliziation
 	int key;

@@ -14,7 +14,9 @@ public:
 	virtual std::string encrypt( std::string &text );
 	virtual std::string decrypt( std::string &text );
 private:
-	// string date for the numerical date
+	// string date for the numerical date, added in here so
+	// when initializing a Date cipher, every new encrypt different
+	// dates can be used easily
 	std::string date;
 	// save the alphabets as upper and lower so case is preserved
 	std::string LOWER = "abcdefghijklmnopqrstuvwxyz";
