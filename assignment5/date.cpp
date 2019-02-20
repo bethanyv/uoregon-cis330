@@ -24,10 +24,13 @@ Date::encrypt( std::string &inputText ) {
         }
     }
     
-    int counter = 0; // for indexing into number_str
+    // for indexing into number_str - don't want to use for loop because number string 
+    // doesn't account for spaces when the for loop will (will produce index error if 
+    // we don't have a count)
+    int counter = 0; 
     for (int i = 0; i != len; ++i) {
-        int add_index; // for the numerical value of the index in the number str
-        if(text[i] != ' ') {
+        int add_index; // for the numerical value of the index in the number_str ("4" in "421")
+        if(text[i] >= 'a' && text[i] <= 'z' || text[i] >= 'A' && text[i] <= 'Z') { // if 
             add_index = completed_numbers[counter] - 48;
             counter += 1;
             // lowercase
@@ -64,7 +67,7 @@ Date::decrypt( std::string &text ) {
     int counter = 0; // for indexing into number_str
     for (int i = 0; i != len; ++i) {
         int sub_index; // for the numerical value of the index in the number str
-        if(text[i] != ' ') {
+        if(text[i] >= 'a' && text[i] <= 'z' || text[i] >= 'A' && text[i] <= 'Z') {
             sub_index = completed_numbers[counter] - 48;
             counter += 1;
             // lowercase
@@ -76,7 +79,6 @@ Date::decrypt( std::string &text ) {
                 if(ind < 0) {
                 ind = 26 + ind;
                 }
-                // HERE CHANGE IF NEGATIVE
                 text[i] = LOWER[ind % 26];
             }
             // uppercase
@@ -88,7 +90,6 @@ Date::decrypt( std::string &text ) {
                 if(ind < 0) {
                 ind = 26 + ind;
                 }
-
                 text[i] = UPPER[ind % 26];
             }
         }
