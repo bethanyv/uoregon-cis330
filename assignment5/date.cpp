@@ -52,6 +52,7 @@ std::string
 Date::decrypt( std::string &text ) {
 	std::string::size_type len = text.length();
 
+    std::string number_str = this->date;
     std::string completed_numbers; // ex. 0 41 9842 198
     
     for (int i = 0; i != len; ++i) {
@@ -71,6 +72,10 @@ Date::decrypt( std::string &text ) {
                 // change index from number_str into int and index into LOWER and change text[i] to this letter
                 std::size_t found_index = this->LOWER.find(text[i]);
                 int ind = found_index - sub_index;
+
+                if(ind < 0) {
+                ind = 26 + ind;
+                }
                 // HERE CHANGE IF NEGATIVE
                 text[i] = LOWER[ind % 26];
             }
@@ -78,7 +83,13 @@ Date::decrypt( std::string &text ) {
             else if (text[i] >= 'A' && text[i] <= 'Z') {
                 // change index from number_str into int and index into HIGHER and change text[i] to this letter
                 std::size_t found_index = this->UPPER.find(text[i]);
-                text[i] = UPPER[(found_index - sub_index) % 26];
+                int ind = found_index - sub_index;
+
+                if(ind < 0) {
+                ind = 26 + ind;
+                }
+
+                text[i] = UPPER[ind % 26];
             }
         }
     }
